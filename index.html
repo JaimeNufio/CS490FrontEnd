@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CS 490 Project</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class = "title">
+      	<!-- <h1>CS 490 Login Page</h1> -->
+	<img src="highlander.png">
+       	<!-- <h3>Jaime Nufio, Matthew Gasin, Scott Norton</h3> -->
+      </div>
+      <div id="login">
+        <form action="/action_page.php" >
+          <label>
+            <div class="labeltitle">Username:</div>
+            <input class="fill" type="text" name="user_name" id="user" placeholder="" value="">
+          </label>
+          <label>
+            <div class="labeltitle">Password:</div>
+            <input class="fill" type="password" name="password" id="pass" placeholder="" value="">
+          </label>
+      </form>
+          <button onclick="login()" id="button">Submit</button>
+      </div>
+      <p id="result"></p> 
+      <p id="result1"></p> 
+    </div>
+    <div id="footer">Front end: Jaime Nufio. Middle end: Scott Norton. Backend: Matt Gasin. </div>
+  </body>
+  <script src="script.js"></script>
+</html>

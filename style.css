@@ -1,0 +1,107 @@
+body{
+  background-color:#000c35;
+  /*background-image:url("actualnjit.jpg");
+	background-size:     cover;       
+	background-repeat:   no-repeat;*/
+}
+
+img{
+	width: 60%;
+	height: 60%;
+	padding-bottom:10px;
+	padding-top:10px;
+}
+
+.container{
+  text-align:center;
+  padding:50px;
+  padding-top:20px;
+  padding-bottom:30px;
+  margin: 0 auto;
+  width: 20%;   
+  border-radius:9px;
+  background-color:#F1F1F1;
+  margin-top: 100px;
+}
+
+.title{
+  text-align:center;
+  padding-bottom:0px;
+  margin: 0 auto;
+  width: 100%;   
+
+}
+
+#login{
+  margin: 0 auto;
+  width: 100%;
+}
+#button{
+  margin-top:35px;
+  height:40px;
+  background-color: crimson;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius:9px;
+}
+form{
+  margin: 0 auto;
+  text-align:left;
+}
+
+label{
+  margin: 0 auto;
+  margin-bottom: 0px;
+  display: block;
+  width: 100%;
+}
+
+.labeltitle{
+  margin-top: 15px;
+  margin-left: 5px;
+  display:block;
+}
+
+.fill{
+  width: 100%;
+	padding: 4px 10px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#result,#result1{
+	text-align:left;	
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+	color: white;
+	padding: 7px 0px;
+}
+
+input,button{
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  line-height:35px;
+	font-size:15px;
+}
+
+
+/*
+input{
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+*/
