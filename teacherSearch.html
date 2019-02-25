@@ -19,14 +19,19 @@
               <h1 class="left">Adding Question: </h1>
               <hr>
               <p style="text-align: left">
-              Input cases with multiple arguments must be written comma seperated. 
+              If an input would have multiple entries, input as comma seperated list (No spaces!).
               </p>
               <hr>
             </div>
-            <textarea  id="desc" class="questiontext">Write your Question here.</textarea>
+            <div>
+              <div class="selectheading" style="margin-top:2px">
+                  Question Text:
+              </div>
+              <textarea  id="desc" class="questiontext" style=>Write your Question here.</textarea>
+            </div>
             <div class="formbox">
               <div class="leftdiv" >
-                <div class="option">        
+                <div class="option">
                   <div class="selectheading">
                     Function Name:
                   </div>
@@ -34,25 +39,23 @@
                   </input>
                 </div>
                 <br>
-                <div class = "option">        
+                <div class = "option">
                   <div class="selectheading">
                     Keywords:
                   </div>
                   <input id="keywords" type="text" class="leftdiv select">
                   </input>
                 </div>
-                <!--
                 <br>
-                <div class="option">        
+                <div class="option">
                   <div class="selectheading">
-                    Arguments:
+                    Variables:
                   </div>
-                  <input id="args" type="text" class="leftdiv select">
+                  <input id="vars" type="text" class="leftdiv select">
                   </input>
                 </div>
-                -->
                 <br>
-                <div class="option">        
+                <div class="option">
                   <div class="selectheading">
                     Topic:
                   </div>
@@ -61,7 +64,7 @@
                 </div>
                 <br>
                 <br>
-                <div class = "option">        
+                <div class = "option">
                   <div class="">
                     Difficulty:
                   </div>
@@ -73,7 +76,7 @@
                 </div>
               </div>
               <div class="rightdiv">
-                <div class="option">        
+                <div class="option">
                   <div class="selectheading">
                     Input Case 1:
                   </div>
@@ -81,7 +84,7 @@
                   </input>
                 </div>
                 <br>
-                <div class = "option">        
+                <div class = "option">
                   <div class="selectheading">
                     Output Case 1:
                   </div>
@@ -89,7 +92,7 @@
                   </input>
                 </div>
                 <br>
-                <div class="option">        
+                <div class="option">
                   <div class="selectheading">
                     Input Case 2:
                   </div>
@@ -97,7 +100,7 @@
                   </input>
                 </div>
                 <br>
-                <div class = "option">        
+                <div class = "option">
                   <div class="selectheading">
                     Output Case 2:
                   </div>
@@ -109,12 +112,12 @@
               <div class="confirm">
                 <br>
                 <hr>
-                <div class = "option">        
+                <div class = "option">
                   <button onclick="createJSONQuestionAdd()" class="select paddtop">Submit</button>
                 </div>
               </div>
             </div>
-         
+
           </div>
 
         </div>
@@ -127,11 +130,11 @@
 
                 <div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
-                  <input onchange="createJSONQuestionQuery()" id = "qtopic" class="select" type="text" style="width:65%"></input>  
+                  <input onchange="createJSONQuestionQuery()" id = "qtopic" class="select" type="text" style="width:65%"></input>
                 </div>
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem" >Keyword: </div>
-                  <input onchange="createJSONQuestionQuery()" id = "qkeywords" class="select" type="text" style="width:54%"></input>  
+                  <input onchange="createJSONQuestionQuery()" id = "qkeywords" class="select" type="text" style="width:54%"></input>
                 </div>
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem ">Difficulty: </div>
@@ -139,25 +142,25 @@
                     <option value="easy">Easy</option>
                     <option value="med">Medium</option>
                     <option value="hard">Hard</option>
-                  </select>  
+                  </select>
                 </div>
 
 
               </div>
             </div>
             <hr>
-            <div class="scroll">
-
+            <div id = "heap" class="scroll">
+            <!---
               <div class="questionPreview">
-                <div class="questionPreviewTitle">TOPIC: keywords</div>
+                <div class="questionPreviewTitle">TOPIC: Old-In-And-Out KEYWORDS: Horroshow, Ultraviolence</div>
                 <hr>
                 <div class="questionPreviewText">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at laoreet odio, a auctor erat. Donec ac quam eget sem dictum fermentum. Phasellus dapibus, dolor id laoreet commodo, dolor leo pulvinar lectus, id imperdiet mauris augue et massa. Suspendisse ac ante ut lorem semper laoreet. Aliquam nec nisl tellus. Donec porttitor augue nec dui tristique efficitur. Nunc turpis libero, convallis non ultrices vitae, maximus non risus. Vestibulum sit amet ante at mi ultricies pharetra non non mauris. Aliquam tincidunt ex eu odio viverra, a pretium eros molestie. 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at laoreet odio, a auctor erat. Donec ac quam eget sem dictum fermentum. Phasellus dapibus, dolor id laoreet commodo, dolor leo pulvinar lectus, id imperdiet mauris augue et massa. Suspendisse ac ante ut lorem semper laoreet. Aliquam nec nisl tellus. Donec porttitor augue nec dui tristique efficitur. Nunc turpis libero, convallis non ultrices vitae, maximus non risus. Vestibulum sit amet ante at mi ultricies pharetra non non mauris. Aliquam tincidunt ex eu odio viverra, a pretium eros molestie.
                 </div>
                 <hr>
-                <div class = "questionPreviewDifficulty">Hard</div>
+                <div class = "questionPreviewDifficulty">Difficulty: Hard</div>
               </div>
-
+            -->
 
 
 
