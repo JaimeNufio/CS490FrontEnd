@@ -17,13 +17,6 @@ function POST(args){
 			result.style.color="#e40042";
 			result.innerHTML+="Login invalid for our DB.\n";
 		}
-																										if (obj["njit_login"]){
-			result1.style.color="#31c55a";
-			result1.innerHTML+="Login valid for NJIT's DB.";
-		}else{
-			result1.style.color="#e40042";
-			result1.innerHTML+="Login invalid for NJIT DB.";
-		}
 	}
 	};
 
@@ -40,4 +33,23 @@ function login(){
 	//document.getElementById("result").innerHTML=args;
 	POST(args);
 }
-																																																																  //
+	
+function createJSONQuestionAdd(){
+  let question = {
+		"func_ID" : {
+			"func_name" : document.getElementById("fname").value,
+			"arg_names" : document.getElementById("args").value.split(","),
+			"description" : document.getElementById("desc").value,
+			"inputs" : [document.getElementById("in1").value, document.getElementById("in2").value],
+			"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
+			"difficulty" : document.getElementById("difficulty").value,
+			"topic" : document.getElementById("topic").value
+	}
+
+
+    };
+//  POST(question); 
+  console.log(question);
+}
+
+createJSONQuestionAdd();																																																															  //

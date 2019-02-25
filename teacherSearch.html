@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CS 490 Project</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div id="main" style="">
+        <div id="leftpannel"> <!-- This is the start of the Input  -->
+         <!-- <div class="title">
+            <div class="set">Topic Here</div>
+            <div class="set">Difficulty</div>
+            <div class="set">Keyword</div>
+          </div>
+          <hr>-->
+          <div class="pannel">
+            <div class="title">
+              <h1 class="left">Adding Question: </h1>
+              <hr>
+            </div>
+            <textarea  id="desc" class="questiontext">Write your Question here.&#13;&#10;Fill out the difficulty section.&#13;&#10;Fill out the tags section with a comma seperated list of tags.&#13;&#10;</textarea>
+            <div class="formbox">
+              <div class="leftdiv" >
+                <div class="option">        
+                  <div class="selectheading">
+                    Function Name:
+                  </div>
+                  <input id="fname" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class = "option">        
+                  <div class="selectheading">
+                    Keywords:
+                  </div>
+                  <input id="keywords" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class="option">        
+                  <div class="selectheading">
+                    Arguments:
+                  </div>
+                  <input id="args" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class="option">        
+                  <div class="selectheading">
+                    Topic:
+                  </div>
+                  <input id="topic" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <br>
+                <div class = "option">        
+                  <div class="">
+                    Difficulty:
+                  </div>
+                  <select id="difficulty" class="select">
+                    <option value="easy">Easy</option>
+                    <option value="med">Medium</option>
+                    <option value="hard">Hard</option>
+                  </select>
+                </div>
+              </div>
+              <div class="rightdiv">
+                <div class="option">        
+                  <div class="selectheading">
+                    Input Case 1:
+                  </div>
+                  <input id="in1" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class = "option">        
+                  <div class="selectheading">
+                    Output Case 1:
+                  </div>
+                  <input id="in2" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class="option">        
+                  <div class="selectheading">
+                    Input Case 2:
+                  </div>
+                  <input id="out1" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+                <div class = "option">        
+                  <div class="selectheading">
+                    Output Case 2:
+                  </div>
+                  <input id="out2" type="text" class="leftdiv select">
+                  </input>
+                </div>
+                <br>
+              </div>
+              <div class="confirm">
+                <br>
+                <hr>
+                <div class = "option">        
+                  <button onclick="createJSONQuestionAdd()" class="select paddtop">Submit</button>
+                </div>
+              </div>
+            </div>
+         
+          </div>
+
+        </div>
+        <div id="rightpannel">
+          <div class="pannel">
+            <div class="title">
+              <h1 class="left">Search:</h1>
+              <hr>
+              <div class="searchcontainer">
+
+                <div class="optionsrowitem" style="width: 33%">
+                  <div class="rowitem">Topic: </div>
+                  <input class="select" type="text" style="width:65%"></input>  
+                </div>
+                <div class="optionsrowitem"  style="width: 33%">
+                  <div class="rowitem" >Keyword: </div>
+                  <input class="select" type="text" style="width:54%"></input>  
+                </div>
+                <div class="optionsrowitem"  style="width: 33%">
+                  <div class="rowitem ">Difficulty: </div>
+                  <select><class="select" style="float:left">
+                    <option value="easy">Easy</option>
+                    <option value="med">Medium</option>
+                    <option value="hard">Hard</option>
+                  </select>  
+                </div>
+
+
+              </div>
+            </div>
+            <hr>
+            <div class="scroll">
+
+              <div class="questionPreview">
+                <div class="questionPreviewTitle">TOPIC: keywords</div>
+                <hr>
+                <div class="questionPreviewText">
+                  Some Information.  
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+        <!-- end of right side-->
+        </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+
+</html>
