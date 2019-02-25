@@ -234,15 +234,14 @@ input,button{
 }
 
 .questionPreview{
-  height:100px;
+  
   width:100%;
   background-color: gray;
   margin: none;
-
   outline-style: solid;
   outline-width: thin;
   outline-color: black;
-
+  padding-bottom: 5px;
 }
 
 .questionPreviewTitle{
@@ -257,6 +256,11 @@ input,button{
   padding-top: 5px;
   font-size: 14px;
   width: 100%;
+}
+
+.questionPreviewDifficulty{
+  font-size: 20px;
+  padding-left: 5px;
 }
 
 /*
