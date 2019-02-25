@@ -252,7 +252,10 @@ function arrayToWords(l){
 
 //Initially Load Everything in DB
 createJSONQuestionQuery();
-insert();																																																						  //
+
+
+//insert();																																																						  //
+
 //TODO
 //get all questions on page load (Will affect load times?)
 
