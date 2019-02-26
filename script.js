@@ -1,5 +1,7 @@
 
-var php = "https://web.njit.edu/~jen25/index.php"
+var jaime = "https://web.njit.edu/~jen25/handle.php"
+var scott = "https://web.njit.edu/~sn479/index.php"
+var dummy = "https://web.njit.edu/~jen25/dummy.php"
 var result = document.getElementById("result");
 var result1 = document.getElementById("result1");
 var count = 0;
@@ -152,29 +154,39 @@ function POST(args){
 	var xhttp = new XMLHttpRequest();
 
   	xhttp.onreadystatechange = function() {
+	
 	if (this.readyState == 4 && this.status == 200) {
-
-		var obj = JSON.parse(this.responseText);
-		if (obj["db_login"]){
+		if (this.response == "instructor" || this.response == "student"){
 			result.style.color="#31c55a";
 			result.innerHTML+="Login valid, Redirecting.\n";
+			if (this.response == "instructor"){
+				window.location.href = "/teacherSearch.html";	
+			}
 		}else{
 			result.style.color="#e40042";
 			result.innerHTML+="Login invalid.\n";
 		}
 	}
+
 	};
 
-	xhttp.open("POST", php, true);
+	xhttp.open("POST", jaime, true);
+	xhttp.setRequestHeader("Request-Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send(args);
+	xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
-    }
+}
 
 function login(){
 	result1.innerHTML="";
 	result.innerHTML="";
-        let args = "user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
+        let args = {
+		'username':""+document.getElementById("user").value,
+		'password':""+document.getElementById("pass").value
+	};
+	console.log(args);
+	
+	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
 	//document.getElementById("result").innerHTML=args;
 	POST(args);
 }
