@@ -150,7 +150,19 @@ var theObject = {
 	}
 }
 
-function POST(args){
+function login(){
+
+	result1.innerHTML="";
+	result.innerHTML="";
+        
+	let args = {
+		'username':""+document.getElementById("user").value,
+		'password':""+document.getElementById("pass").value
+	};
+	console.log(args);
+	
+	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
+	//document.getElementById("result").innerHTML=args;
 	var xhttp = new XMLHttpRequest();
 
   	xhttp.onreadystatechange = function() {
@@ -170,31 +182,17 @@ function POST(args){
 
 	};
 
-	xhttp.open("POST", jaime, true);
-	xhttp.setRequestHeader("Request-Type", "login");
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request_Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
 }
 
-function login(){
-	result1.innerHTML="";
-	result.innerHTML="";
-        let args = {
-		'username':""+document.getElementById("user").value,
-		'password':""+document.getElementById("pass").value
-	};
-	console.log(args);
-	
-	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
-	//document.getElementById("result").innerHTML=args;
-	POST(args);
-}
-
 function createJSONQuestionAdd(){
 	let id = document.getElementById("fname").value+"__"+String(count);
-  let question = {
-		id : {
+  	let question = {
+		(""+id) : {
 			"func_name" : document.getElementById("fname").value,
 			"arg_names" : document.getElementById("vars").value.split(","),
 			"description" : document.getElementById("desc").value,
@@ -202,15 +200,26 @@ function createJSONQuestionAdd(){
 			"expected_outputs" : [document.getElementById("out1"), document.getElementById("out2")],
 			"difficulty" : document.getElementById("difficulty").value,
 			"topic" : document.getElementById("topic").value
+		}
 	}
 
+	var xhttp = new XMLHttpRequest();
 
-    };
-//  POST(question);
-	console.log(question);
+  	xhttp.onreadystatechange = function() {
+	
+		if (this.readyState == 4 && this.status == 200) {
+		}
+
+	};
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request_Type", "new_question");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(question));
+	console.log(xhttp);
 
 //Request to post this question
-//Also need to send a request to backend for everything again
+	createJSONQuestionQuery();
 }
 
 //This function is called every update on the search, hopefully rewritting the divs won't be a problem?
