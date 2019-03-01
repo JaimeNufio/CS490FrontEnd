@@ -18,10 +18,12 @@
             <div class="title">
               <h1 class="left">Adding Question: </h1>
               <hr>
+              <!--
               <p style="text-align: left">
               If an input would have multiple entries, input as comma seperated list (No spaces!).
               </p>
               <hr>
+              -->
             </div>
             <div>
               <div class="selectheading" style="margin-top:2px">
@@ -36,14 +38,6 @@
                     Function Name:
                   </div>
                   <input id="fname" type="text" class="leftdiv select">
-                  </input>
-                </div>
-                <br>
-                <div class = "option">
-                  <div class="selectheading">
-                    Keywords:
-                  </div>
-                  <input id="keywords" type="text" class="leftdiv select">
                   </input>
                 </div>
                 <br>
@@ -128,6 +122,21 @@
               <hr>
               <div class="searchcontainer">
 
+              <!--
+            <div class="flexContainer">
+            <div class="box">
+              <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
+            </div>
+            <div class="box"><button>Submit Test</button></div>
+          </div>
+          <br>
+          <div style="margin:0 50px 0 50px">
+
+            <button>Release Scores</button>
+          </div>
+
+              -->
+
                 <div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
                   <input onchange="createJSONQuestionQuery()" id = "qtopic" class="select" type="text" style="width:65%"></input>
@@ -150,22 +159,43 @@
             </div>
             <hr>
             <div id = "heap" class="scroll">
-            <!---
+
+              <!--
               <div class="questionPreview">
                 <div class="questionPreviewTitle">TOPIC: Old-In-And-Out KEYWORDS: Horroshow, Ultraviolence</div>
                 <hr>
                 <div class="questionPreviewText">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at laoreet odio, a auctor erat. Donec ac quam eget sem dictum fermentum. Phasellus dapibus, dolor id laoreet commodo, dolor leo pulvinar lectus, id imperdiet mauris augue et massa. Suspendisse ac ante ut lorem semper laoreet. Aliquam nec nisl tellus. Donec porttitor augue nec dui tristique efficitur. Nunc turpis libero, convallis non ultrices vitae, maximus non risus. Vestibulum sit amet ante at mi ultricies pharetra non non mauris. Aliquam tincidunt ex eu odio viverra, a pretium eros molestie.
+                  <span class="smallHeading">Question:</span>
+                  <br>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at laoreet odio, a auctor erat. Donec ac quam eget sem dictum fermentum. Phasellus dapibus, dolor id laoreet commodo, dolor leo pulvinar lectus, id imperdiet mauris augue et massa. Suspendisse ac ante ut lorem semper laoreet. Aliquam nec nisl tellus. Donec porttitor augue nec dui tristique efficitur. Nunc turpis libero, convallis non ultrices vitae, maximus non risus. Vestibulum sit amet ante at mi ultricies pharetra non non mauris. Aliquam tincidunt ex eu odio viverra, a pretium eros molestie.
                 </div>
                 <hr>
-                <div class = "questionPreviewDifficulty">Difficulty: Hard</div>
+                <div class="questionPreviewHandler">
+                  <div style="margin-top:8px;" class="questionPreviewContainer">
+                    <div style="margin-top:8px; margin-right:5px; margin-left:100px" class="questionPreviewDifficulty">Difficulty: Hard</div>
+                    <div style="float:left;margin-top:8px; margin-right:5px">Points Value:</div>
+                    <input class="select" style="height:15px;float:left;width:10%;margin-top:5px"></input>
+                    <button style="float:right; margin-right:8px; width:20%;" class="">Add To Exam</button>
+                  </div>
+                </div>
               </div>
-            -->
-
-
+              -->
 
             </div>
           </div>
+
+          <div class="flexContainer">
+            <div class="box">
+              <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
+            </div>
+            <div class="box"><button>Submit Test</button></div>
+          </div>
+          <br>
+          <div style="margin:0 50px 0 50px">
+
+            <button>Release Scores</button>
+          </div>
+
         <!-- end of right side-->
         </div>
     </div>
