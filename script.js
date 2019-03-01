@@ -417,6 +417,7 @@ createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim
 CreateListForTeacher();																																																						  //
 
-//TODO
-//get all questions on page load (Will affect load times?)
 
+//TODO
+//Release Button (simple empty request)
+//Submit Test Button (a pain but step thru the array)
