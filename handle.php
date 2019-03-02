@@ -5,9 +5,8 @@
 //echo "User:",$_POST['user_name'],"\nPass:",$_POST['password'];
 //print_r($_GET)
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-	//print_r($_SERVER);
-	if($_SERVER['HTTP_REQUEST_TYPE'] == 'login'){
+	print_r($_SERVER);
+	if(5==4 && $_SERVER['HTTP_REQUEST_TYPE'] == 'login'){
 //		$middle = 'https://web.njit.edu/~jen25/dummy.php';
 		$middle = 'https://web.njit.edu/~sn479/index.php';
 

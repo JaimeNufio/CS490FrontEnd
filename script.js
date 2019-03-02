@@ -1,4 +1,4 @@
-var jaime = "https://web.njit.edu/~jen25/handle.php"
+var handle  = "https://web.njit.edu/~jen25/handle.php"
 var scott = "https://web.njit.edu/~sn479/index.php"
 var php = "https://web.njit.edu/~jen25/dummy.php"
 
@@ -250,7 +250,7 @@ function login(){
 
 	};
 
-	xhttp.open("POST", scott, true);
+	xhttp.open("GET", handle, true);
 	xhttp.setRequestHeader("Request_Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(args));
@@ -559,8 +559,6 @@ function assembleExam(){
 //student finished the exam
 function SubmitFinishedExam(){
 
-	var isStudent = false;
-
 	let args = {
 		'username':""+document.getElementById("user").value,
 		'password':""+document.getElementById("pass").value
@@ -574,8 +572,11 @@ function SubmitFinishedExam(){
   	xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
 		if (this.response == "student"){
-			isStudent = true;
+
+			//TODO test this section outside of this nested http
+			//need to determine if the structure is correct
 			var complete = {};
+
 			complete[args['username']]['questions'] = exam['questions'];
 			complete['points'] = exam['points'];
 			complete['answers'] = [];
@@ -583,7 +584,7 @@ function SubmitFinishedExam(){
 			complete['comments'] = "";
 
 			for (let i = 0; i<exam['points'].length;i++){
-				exam['points'][i] = document.getElementById(i).value;
+				exam['answers'][i] = document.getElementById(i).value;
 			}
 
 			}
@@ -605,11 +606,11 @@ function SubmitFinishedExam(){
 		console.log(xhttp1);
 	};
 
-	xhttp.open("POST", scott, true);
+	xhttp.open("POST", handle, true);
 	xhttp.setRequestHeader("Request_Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
+	xhttp.send(JSON.stringify(args));
 }
 
 function stopTab( e ) {
