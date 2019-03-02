@@ -333,6 +333,27 @@ function createJSONQuestionQuery(){
 	console.log(xhttp);
 }
 
+function releaseScores(){
+	let query = {};
+
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+
+		if (this.readyState == 4 && this.status == 200) {
+			theObject = JSON.decode(response);
+			CreateListForTeacher(); //Redraw the list based on new Query
+		}
+
+  	};
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request_Type", "release");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(query));
+	console.log(xhttp);
+}
+
 function createAbsoluteNumQuery(){
 	var xhttp = new XMLHttpRequest();
 
@@ -412,6 +433,41 @@ function arrayToWords(l){
 	return out;
 }
 
+function createExam(){
+	var examOut = {"questions":{}};
+	for (let i = 0;i<functionList.length;i++){
+		//console.log(theObject[functionList[i]]);
+		let key = functionList[i];
+		examOut['questions'][key] = theObject[functionList[i]];
+	}
+	console.log(examOut);
+
+	return examOut;
+}
+
+function submitExam(){
+	if (total != 100){
+		return;
+	}else{
+	let query = createExam();
+
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+
+		if (this.readyState == 4 && this.status == 200) {
+			theObject = JSON.decode(response);
+		}
+
+  	};
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request_Type", "release");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(query));
+	console.log(xhttp);
+	}
+}
 //On Load, we're required to know the # of functions in the DB
 createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim

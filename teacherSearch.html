@@ -53,8 +53,20 @@
                   <div class="selectheading">
                     Topic:
                   </div>
-                  <input id="topic" type="text" class="leftdiv select">
-                  </input>
+                  <select onchange="createJSONQuestionQuery()" id="topic" class="select" style="float:left">
+                    <option value="list">1: List</option>
+                    <option value="turtles">2: Turtles</option>
+                    <option value="if">3: If</option>
+                    <option value="for_loops">4: For Loops</option>
+                    <option value="def">5: Def</option>
+                    <option value="while">6: While</option>
+                    <option value="string_methods">7: String Methods</option>
+                    <option value="fists">8: Files</option>
+                    <option value="dictionaries">9: Dictionaries</option>
+                    <option value="namespaces">10: Namespaces</option>
+                    <option value="exceptions">11: Exceptions</option>
+                    <option value="classes">12: Classes</option>
+                  </select>
                 </div>
                 <br>
                 <br>
@@ -139,7 +151,20 @@
 
                 <div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
-                  <input onchange="createJSONQuestionQuery()" id = "qtopic" class="select" type="text" style="width:65%"></input>
+                  <select onchange="createJSONQuestionQuery()" id="qtopic" class="select" style="float:left">
+                    <option value="list">1: List</option>
+                    <option value="turtles">2: Turtles</option>
+                    <option value="if">3: If</option>
+                    <option value="for_loops">4: For Loops</option>
+                    <option value="def">5: Def</option>
+                    <option value="while">6: While</option>
+                    <option value="string_methods">7: String Methods</option>
+                    <option value="fists">8: Files</option>
+                    <option value="dictionaries">9: Dictionaries</option>
+                    <option value="namespaces">10: Namespaces</option>
+                    <option value="exceptions">11: Exceptions</option>
+                    <option value="classes">12: Classes</option>
+                  </select>
                 </div>
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem" >Keyword: </div>
@@ -188,12 +213,12 @@
             <div class="box">
               <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
             </div>
-            <div class="box"><button>Submit Test</button></div>
+            <div class="box"><button onclick="submitExam()">Submit Test</button></div>
           </div>
           <br>
           <div style="margin:0 50px 0 50px">
 
-            <button>Release Scores</button>
+            <button onclick="releaseScores()">Release Scores</button>
           </div>
 
         <!-- end of right side-->
