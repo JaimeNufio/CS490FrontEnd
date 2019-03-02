@@ -34,7 +34,7 @@ img{
   margin: 50px auto;
   width: 90%;
   height: 750px;/*44vw;*/
-  background: green;
+  background: white;
   border-radius:9px;
   display:block;
   overflow: hidden;
@@ -302,6 +302,65 @@ input,button{
 
 .questionPreviewButton.up{
   background-color:rgb(221,221,221);
+}
+
+.ExamTitle{
+  padding-left:20px;
+  width:200px;
+  float:left;
+}
+
+.workArea{
+  width:100%;
+  overflow: scroll;
+  background: #EEE;
+  height: 685px;
+}
+
+.questionWritten{
+  padding-top:2px;
+  padding-bottom:20px;
+}
+
+.questionTitle{
+  margin-left:20px;
+}
+
+.questionText{
+  width:95%;
+  padding: auto;
+  margin-left:20px;
+  margin-top:15px;
+}
+
+.questionHeading{
+  margin-left:20px;
+}
+
+.ans{
+  margin-top:30px;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.questionWritten > textarea{
+  margin-top:10px;
+  margin-left:20px;
+  margin-bottom:20px;
+  width:50%;
+  padding: auto;
+  height:200px;
+
+}
+
+#ExamDone{
+  width:200px;
+  float:right;
+  margin: 20px;
+}
+
+.tittleContainer{
+  width:500px;
 }
 
 /*

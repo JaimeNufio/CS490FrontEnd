@@ -17,6 +17,7 @@ var qNum = 0;
 
 //theObject will be assigned to the value of var['questions']
 var theObject = {
+
 	"func_ID" : {
 		"func_name" : "func1",
 		"arg_names" : ["name1", "name2"],
@@ -159,8 +160,64 @@ var theObject = {
 	}
 }
 
-var functionList = [];
+var exam = {
+	'questions':{
+		"func_ID" : {
+			"func_name" : "func1",
+			"arg_names" : ["name1", "name2"],
+			"description" : "stuff about question",
+			"inputs" : ["1", "2"],
+			"expected_outputs" : ["5","6"],
+			"difficulty" : "hard",
+			"topic" : "lol",
+			"keywords" : ["truth","covered","in","security"]
+		},
+		"func_ID2" : {
+			"func_name" : "func2",
+			"arg_names" : ["name1", "name2"],
+			"description" : "stuff about question 2",
+			"inputs" : ["4", "19"],
+			"expected_outputs" : ["four","nineteen"],
+			"difficulty" : "easy",
+			"topic" : "turtle",
+			"keywords": ["holy","shit"]
+		},
+		"func_ID3" : {
+			"func_name" : "func1",
+			"arg_names" : ["name1", "name2"],
+			"description" : "stuff about question",
+			"inputs" : ["1", "2"],
+			"expected_outputs" : ["5","6"],
+			"difficulty" : "hard",
+			"topic" : "lol",
+			"keywords" : ["truth","covered","in","security"]
+		},
+		"func_ID4" : {
+			"func_name" : "func2",
+			"arg_names" : ["name1", "name2"],
+			"description" : "stuff about question 2",
+			"inputs" : ["4", "19"],
+			"expected_outputs" : ["four","nineteen"],
+			"difficulty" : "easy",
+			"topic" : "turtle",
+			"keywords": ["holy","shit"]
+		},
+		"func_ID5" : {
+			"func_name" : "func1",
+			"arg_names" : ["name1", "name2"],
+			"description" : "stuff about question",
+			"inputs" : ["1", "2"],
+			"expected_outputs" : ["5","6"],
+			"difficulty" : "hard",
+			"topic" : "lol",
+			"keywords" : ["truth","covered","in","security"]
+		}
+	},
+	"points":[20,10,30,10,30]
+}
 
+var functionList = [];
+var functionWorth = [];
 function login(){
 
 	result1.innerHTML="";
@@ -233,6 +290,7 @@ function ButtonStateHandler(button) {
 			button.classList.remove("up");
 			button.innerHTML = "Remove";
 
+			functionWorth.push((val));
 			let key = Object.keys(theObject)[buttonId];
 			let obj = theObject[key];
 
@@ -257,11 +315,13 @@ function ButtonStateHandler(button) {
 		for (var i =0; i < functionList.length;i++){
 			if (functionList[i]===Object.keys(theObject)[buttonId]){
 				functionList.splice(i,1);
+				functionWorth.splice(i,1);
 			}
 		}
 	}
 	document.getElementById("total").innerHTML=`${total}/100`;
 	console.log(functionList);
+	console.log(functionWorth);
 }
 
 function createJSONQuestionAdd(){
@@ -440,15 +500,18 @@ function createExam(){
 		let key = functionList[i];
 		examOut['questions'][key] = theObject[functionList[i]];
 	}
+	examOut['points'] = functionWorth;
 	console.log(examOut);
 
 	return examOut;
 }
 
+//Submit exam as completely built to the DB
 function submitExam(){
 	if (total != 100){
 		return;
 	}else{
+
 	let query = createExam();
 
 	var xhttp = new XMLHttpRequest();
@@ -456,7 +519,7 @@ function submitExam(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
-			theObject = JSON.decode(response);
+		//	theObject = JSON.decode(response);
 		}
 
   	};
@@ -468,10 +531,128 @@ function submitExam(){
 	console.log(xhttp);
 	}
 }
+
+//builds exam to display
+function assembleExam(){
+	//let l = Object.keys(exam['questions']);
+	for (let i = 0; i<Object.keys(exam['questions']).length;i++){
+		let key = Object.keys(exam['questions'])[i];
+		let curr = exam['questions'][key];
+
+		document.getElementById('exam').innerHTML+=`
+		<div class="questionWritten">
+		<div>
+		  <h2 class="questionTitle">Question ${i+1}:</h2>
+		</div>
+		<div class="questionText">
+		${curr['description']}
+		</div>
+		<div class="ans">Answer:</div>
+		<textarea id="${i}" onkeydown="return stopTab(event);"></textarea>
+		<div style="float:right; padding-top:220px;padding-right:50px">${exam['points'][i]}</div>
+		<div style="float:right; padding-top:220px;padding-right:50px">${key}</div>
+		<hr>
+	  </div>`
+	}
+}
+
+//student finished the exam
+function SubmitFinishedExam(){
+
+	var isStudent = false;
+
+	let args = {
+		'username':""+document.getElementById("user").value,
+		'password':""+document.getElementById("pass").value
+	};
+	console.log(args);
+
+	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
+	//document.getElementById("result").innerHTML=args;
+	var xhttp = new XMLHttpRequest();
+
+  	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+		if (this.response == "student"){
+			isStudent = true;
+			var complete = {};
+			complete[args['username']]['questions'] = exam['questions'];
+			complete['points'] = exam['points'];
+			complete['answers'] = [];
+			complete['score'] = 0;
+			complete['comments'] = "";
+
+			for (let i = 0; i<exam['points'].length;i++){
+				exam['points'][i] = document.getElementById(i).value;
+			}
+
+			}
+		}
+		console.log(exam);
+		var xhttp1 = new XMLHttpRequest();
+		xhttp1.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				console.log("Done?")
+			}
+		}
+
+
+
+		xhttp1.open("POST", scott, true);
+		xhttp1.setRequestHeader("Request_Type", "submit_exam");
+		xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhttp1.send(JSON.stringify(args));
+		console.log(xhttp1);
+	};
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request_Type", "login");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(args));
+	console.log(xhttp);
+}
+
+function stopTab( e ) {
+    var evt = e || window.event
+    if ( evt.keyCode === 9 ) {
+		e.preventDefault();
+		event.target.value+=("\u00a0\u00a0\u00a0\u00a0");
+
+		return false;
+    }
+}
+
+/*
+function onKeyDown(e) {
+	console.log(e.keyCode)
+	if (e.keyCode === 9) { // tab key
+		console.log('tab')
+        e.preventDefault();  // this will prevent us from tabbing out of the editor
+
+        // now insert four non-breaking spaces for the tab key
+        var editor = document.getElementById("editor");
+        var doc = editor.ownerDocument.defaultView;
+        var sel = doc.getSelection();
+        var range = sel.getRangeAt(0);
+
+        var tabNode = document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+        range.insertNode(tabNode);
+
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+}*/
+
+
+assembleExam();
+
 //On Load, we're required to know the # of functions in the DB
 createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim
 CreateListForTeacher();																																																						  //
+
 
 
 //TODO
