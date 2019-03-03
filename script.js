@@ -231,8 +231,7 @@ function login(){
 
 	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
 	//document.getElementById("result").innerHTML=args;
-	var xhttp = new XMLHttpRequest();
-
+	let xhttp = new XMLHttpRequest();
   	xhttp.onreadystatechange = function() {
 
 	if (this.readyState == 4 && this.status == 200) {
@@ -246,12 +245,13 @@ function login(){
 			result.style.color="#e40042";
 			result.innerHTML+="Login invalid.\n";
 		}
+	
+		console.log(this.response);
 	}
-
 	};
 
-	xhttp.open("GET", handle, true);
-	xhttp.setRequestHeader("Request_Type", "login");
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request-Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
@@ -345,7 +345,7 @@ function createJSONQuestionAdd(){
 			}
 		}
 
-		var xhttp = new XMLHttpRequest();
+		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function() {
 
@@ -375,7 +375,7 @@ function createJSONQuestionQuery(){
 		"difficulty": document.getElementById("qdifficulty").value
 	}
 
-	var xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function() {
 
@@ -396,12 +396,12 @@ function createJSONQuestionQuery(){
 function releaseScores(){
 	let query = {};
 
-	var xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
-			theObject = JSON.decode(response);
+			theObject = JSON.parse(this.response);
 			CreateListForTeacher(); //Redraw the list based on new Query
 		}
 
@@ -415,7 +415,7 @@ function releaseScores(){
 }
 
 function createAbsoluteNumQuery(){
-	var xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
 	let args = {};
   	xhttp.onreadystatechange = function() {
@@ -514,7 +514,7 @@ function submitExam(){
 
 	let query = createExam();
 
-	var xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function() {
 
@@ -567,7 +567,7 @@ function SubmitFinishedExam(){
 
 	//"user_name="+document.getElementById("user").value+"&password="+document.getElementById("pass").value;
 	//document.getElementById("result").innerHTML=args;
-	var xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
   	xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
@@ -590,7 +590,7 @@ function SubmitFinishedExam(){
 			}
 		}
 		console.log(exam);
-		var xhttp1 = new XMLHttpRequest();
+		let xhttp1 = new XMLHttpRequest();
 		xhttp1.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				console.log("Done?")
