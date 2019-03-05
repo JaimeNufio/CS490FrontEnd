@@ -336,14 +336,14 @@ function createJSONQuestionAdd(){
 	document.getElementById("in2").length == 0 || document.getElementById("out2").length == 0 ){
 		console.log("Something is empty...");
 	}else{
-		let id = document.getElementById("fname").value+"__"+String(absoluteQNum);
-		let question = {"quesitons:"{
-			id : {
+		let id = document.getElementById("fname").value+"--"+String(absoluteQNum+1);
+		let question = {"questions":{
+			[id] : {
 				"func_name" : document.getElementById("fname").value,
 				"arg_names" : document.getElementById("vars").value.split(","),
 				"description" : document.getElementById("desc").value,
 				"inputs" : [document.getElementById("in1").value.split(","), document.getElementById("in2").value.split(",")],
-				"expected_outputs" : [document.getElementById("out1"), document.getElementById("out2")],
+				"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
 				"difficulty" : document.getElementById("difficulty").value,
 				"topic" : document.getElementById("topic").value
 				}
@@ -360,9 +360,9 @@ function createJSONQuestionAdd(){
 
 		};
 
-		xhttp.open("POST", scott, true);
-		xhttp.setRequestHeader("Request_Type", "new_question");
+		xhttp.open("POST", handle, true);
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhttp.setRequestHeader("Request-Type", "new-question");
 		xhttp.send(JSON.stringify(question));
 		console.log(question);
 		console.log(xhttp);
@@ -394,7 +394,7 @@ function createJSONQuestionQuery(){
   	};
 
 	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request_Type", "query");
+	xhttp.setRequestHeader("Request-Type", "query");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
@@ -431,10 +431,10 @@ function createAbsoluteNumQuery(){
 		}
 	};
 
-	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request_Type", "num_questions");
+	xhttp.open("GET", handle, true);
+	xhttp.setRequestHeader("Request-Type", "num_questions");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send(JSON.stringify(args));
+	//xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
 }
 
@@ -526,13 +526,14 @@ function submitExam(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.response);
 		//	theObject = JSON.decode(response);
 		}
 
   	};
 
 	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request_Type", "release");
+	xhttp.setRequestHeader("Request-Type", "release");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
@@ -607,14 +608,14 @@ function SubmitFinishedExam(){
 
 
 		xhttp1.open("POST", scott, true);
-		xhttp1.setRequestHeader("Request_Type", "submit_exam");
+		xhttp1.setRequestHeader("Request-Type", "submit_exam");
 		xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhttp1.send(JSON.stringify(args));
 		console.log(xhttp1);
 	};
 
-	xhttp.open("POST", handle, true);
-	xhttp.setRequestHeader("Request_Type", "login");
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request-Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	console.log(xhttp);
 	xhttp.send(JSON.stringify(args));
@@ -654,12 +655,12 @@ function onKeyDown(e) {
 }*/
 
 
-assembleExam();
+//assembleExam();
 
 //On Load, we're required to know the # of functions in the DB
 createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim
-CreateListForTeacher();																																																						  //
+//CreateListForTeacher();																																																						  //
 
 
 
