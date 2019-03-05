@@ -235,18 +235,22 @@ function login(){
   	xhttp.onreadystatechange = function() {
 
 	if (this.readyState == 4 && this.status == 200) {
-		if (this.response == "instructor" || this.response == "student"){
+		let r = ""+this.response;
+		if (r == " instructor" || r == " student"){
 			result.style.color="#31c55a";
-			result.innerHTML+="Login valid, Redirecting.\n";
-			if (this.response == "instructor"){
-				window.location.href = "/teacherSearch.html";
+			if (r == " instructor"){
+				result.innerHTML+="Login valid, Redirecting.\n";
+				window.location.href = "./teacherSearch.html";
+			}else{
+				result.innerHTML+="Login valid, Redirecting.\n";
+				window.location.href = "./studentTake.html";
 			}
 		}else{
 			result.style.color="#e40042";
 			result.innerHTML+="Login invalid.\n";
 		}
 	
-		console.log(this.response);
+		console.log(r);
 	}
 	};
 
@@ -333,7 +337,7 @@ function createJSONQuestionAdd(){
 		console.log("Something is empty...");
 	}else{
 		let id = document.getElementById("fname").value+"__"+String(absoluteQNum);
-		let question = {
+		let question = {"quesitons:"{
 			id : {
 				"func_name" : document.getElementById("fname").value,
 				"arg_names" : document.getElementById("vars").value.split(","),
@@ -342,6 +346,7 @@ function createJSONQuestionAdd(){
 				"expected_outputs" : [document.getElementById("out1"), document.getElementById("out2")],
 				"difficulty" : document.getElementById("difficulty").value,
 				"topic" : document.getElementById("topic").value
+				}
 			}
 		}
 
@@ -350,6 +355,7 @@ function createJSONQuestionAdd(){
 		xhttp.onreadystatechange = function() {
 
 			if (this.readyState == 4 && this.status == 200) {
+				console.log("back should have gotten the question");
 			}
 
 		};
@@ -358,6 +364,7 @@ function createJSONQuestionAdd(){
 		xhttp.setRequestHeader("Request_Type", "new_question");
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhttp.send(JSON.stringify(question));
+		console.log(question);
 		console.log(xhttp);
 
 		//Update the search bar, new question might appear.
@@ -380,7 +387,7 @@ function createJSONQuestionQuery(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
-			theObject = JSON.decode(response);
+			theObject = JSON.parse(this.response);
 			CreateListForTeacher(); //Redraw the list based on new Query
 		}
 
