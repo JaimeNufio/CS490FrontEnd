@@ -249,7 +249,7 @@ function login(){
 			result.style.color="#e40042";
 			result.innerHTML+="Login invalid.\n";
 		}
-	
+
 		console.log(r);
 	}
 	};
@@ -257,6 +257,7 @@ function login(){
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "login");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
 }
@@ -363,6 +364,7 @@ function createJSONQuestionAdd(){
 		xhttp.open("POST", handle, true);
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhttp.setRequestHeader("Request-Type", "new-question");
+		xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 		xhttp.send(JSON.stringify(question));
 		console.log(question);
 		console.log(xhttp);
@@ -389,12 +391,15 @@ function createJSONQuestionQuery(){
 		if (this.readyState == 4 && this.status == 200) {
 			theObject = JSON.parse(this.response);
 			CreateListForTeacher(); //Redraw the list based on new Query
+		}else{
+			console.log("failed to draw.")
 		}
 
   	};
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "query");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
@@ -416,6 +421,7 @@ function releaseScores(){
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request_Type", "release");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
@@ -433,6 +439,7 @@ function createAbsoluteNumQuery(){
 
 	xhttp.open("GET", handle, true);
 	xhttp.setRequestHeader("Request-Type", "num_questions");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	//xhttp.send(JSON.stringify(args));
 	console.log(xhttp);
@@ -534,6 +541,7 @@ function submitExam(){
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "release");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
@@ -609,6 +617,7 @@ function SubmitFinishedExam(){
 
 		xhttp1.open("POST", scott, true);
 		xhttp1.setRequestHeader("Request-Type", "submit_exam");
+		xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 		xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhttp1.send(JSON.stringify(args));
 		console.log(xhttp1);
@@ -616,6 +625,7 @@ function SubmitFinishedExam(){
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "login");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	console.log(xhttp);
 	xhttp.send(JSON.stringify(args));
@@ -660,7 +670,8 @@ function onKeyDown(e) {
 //On Load, we're required to know the # of functions in the DB
 createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim
-//CreateListForTeacher();																																																						  //
+//CreateListForTeacher();
+createJSONQuestionQuery();																																																		  //
 
 
 
