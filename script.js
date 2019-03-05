@@ -16,205 +16,36 @@ var total = 0; //pts of test
 var qNum = 0;
 
 //theObject will be assigned to the value of var['questions']
-var theObject = {
-
-	"func_ID" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID2" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID3" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID4" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID5" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID6" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID7" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID8" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID9" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID10" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID11" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID12" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
-	},
-	"func_ID13" : {
-		"func_name" : "func1",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question",
-		"inputs" : ["1", "2"],
-		"expected_outputs" : ["5","6"],
-		"difficulty" : "hard",
-		"topic" : "lol",
-		"keywords" : ["truth","covered","in","security"]
-	},
-	"func_ID14" : {
-		"func_name" : "func2",
-		"arg_names" : ["name1", "name2"],
-		"description" : "stuff about question 2",
-		"inputs" : ["4", "19"],
-		"expected_outputs" : ["four","nineteen"],
-		"difficulty" : "easy",
-		"topic" : "turtle",
-		"keywords": ["holy","shit"]
+var exam ={
+	"sn479" : {
+			"questions" : {
+					"FunctionName" : {
+							"func_name" : "add",
+							"arg_names" : ["x", "y"],
+							"description" : "stuff about question",
+							"inputs" : [ [1, 2], [6, 9] ],
+							"expected_outputs" : ["3","15"],
+							"difficulty" : "hard",
+							"topics" : ["lists", "files"]
+					},
+					"func_ID2" : {
+							"func_name" : "mult",
+							"arg_names" : ["num1", "num2"],
+							"description" : "stuff about question 2",
+							"inputs" : [ [5, 8], [7, 4] ],
+							"expected_outputs" : ["40","28"],
+							"difficulty" : "easy",
+							"topics" : ["turtle", "dictionary"]
+					}
+			},
+			"points" : [60, 40],
+			"answers" : ["def add(x, z):\nreturn x+z", "def mults(num1, num2):\n\treturn num1num2"],
+			"scores" : 100,
+			"comments" : ""
 	}
-}
+};
 
-var exam = {
-	'questions':{
-		"func_ID" : {
-			"func_name" : "func1",
-			"arg_names" : ["name1", "name2"],
-			"description" : "stuff about question",
-			"inputs" : ["1", "2"],
-			"expected_outputs" : ["5","6"],
-			"difficulty" : "hard",
-			"topic" : "lol",
-			"keywords" : ["truth","covered","in","security"]
-		},
-		"func_ID2" : {
-			"func_name" : "func2",
-			"arg_names" : ["name1", "name2"],
-			"description" : "stuff about question 2",
-			"inputs" : ["4", "19"],
-			"expected_outputs" : ["four","nineteen"],
-			"difficulty" : "easy",
-			"topic" : "turtle",
-			"keywords": ["holy","shit"]
-		},
-		"func_ID3" : {
-			"func_name" : "func1",
-			"arg_names" : ["name1", "name2"],
-			"description" : "stuff about question",
-			"inputs" : ["1", "2"],
-			"expected_outputs" : ["5","6"],
-			"difficulty" : "hard",
-			"topic" : "lol",
-			"keywords" : ["truth","covered","in","security"]
-		},
-		"func_ID4" : {
-			"func_name" : "func2",
-			"arg_names" : ["name1", "name2"],
-			"description" : "stuff about question 2",
-			"inputs" : ["4", "19"],
-			"expected_outputs" : ["four","nineteen"],
-			"difficulty" : "easy",
-			"topic" : "turtle",
-			"keywords": ["holy","shit"]
-		},
-		"func_ID5" : {
-			"func_name" : "func1",
-			"arg_names" : ["name1", "name2"],
-			"description" : "stuff about question",
-			"inputs" : ["1", "2"],
-			"expected_outputs" : ["5","6"],
-			"difficulty" : "hard",
-			"topic" : "lol",
-			"keywords" : ["truth","covered","in","security"]
-		}
-	},
-	"points":[20,10,30,10,30]
-}
+
 
 var functionList = [];
 var functionWorth = [];
@@ -572,6 +403,94 @@ function assembleExam(){
 	}
 }
 
+
+//*********TEACHER REVIEW :CLAP::CLAP:*****************************************88888 */
+
+function sendExamBack(){
+	let xhttp = new XMLHttpRequest();
+	let args = {"username":document.getElementById("selectName")};
+	console.log(`Trying for ${document.getElementById("selectName")}`)
+
+	NewExam = Exam;
+
+	let student = Object.keys(exam)[0];
+	console.log(student);
+
+	for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
+		NewExam[student]['answers']+=document.getElementById(i).value+"\n\n";
+	}
+
+  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log("submitted.")
+		}
+	}
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request-Type", "modify_grade");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(NewExam));
+	console.log(xhttp);
+}
+
+
+//assembleExam, but for the professor to view and edit.
+//Presumably, theObject is already the single student exam
+function assembleExamComments(){
+
+		exam = JSON.parse(this.response);
+		let student = Object.keys(exam)[0];
+		console.log(student);
+
+		for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
+			let key = Object.keys(exam[student]['questions'])[i];
+			let curr = exam[student]['questions'][key];
+
+			document.getElementById('exam').innerHTML+=`
+			<div class="questionWritten">
+			<div>
+				<h2 class="questionTitle">Question ${i+1}:</h2>
+			</div>
+			<div class="questionText">
+				${curr['description']}
+			</div>
+			<div class="ans">Answer Given:</div>
+			<div class="studentAns"></div>
+			<div class="ans" style="width:200px;">
+				<div style="float:left; margin-top:15px; margin-bottom:3px;">Points Delta:</div>
+				<input class="" style="height: 17px;"></input>
+			</div>
+			<div class="ans">Comments:</div>
+			<textarea id="${i}" onkeydown="return stopTab(event);"></textarea>
+			<div style="float:right; padding-top:220px;padding-right:50px">Value: ${exam[student]['points'][i]}</div>
+			<div style="float:right; padding-top:220px;padding-right:50px">${key}</div>
+			<hr>
+		</div>`;
+		}
+}
+
+function LoadStudentExam(){
+
+	let xhttp = new XMLHttpRequest();
+	let args = {"username":document.getElementById("selectName").value};
+	console.log(`Trying for ${document.getElementById("selectName").value}`)
+  xhttp.onreadystatechange = function() {
+
+	if (this.readyState == 4 && this.status == 200) {
+		assembleExamComments();
+		exam=JSON.parse(this.response);
+	}
+}
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request-Type", "review_grade");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send(JSON.stringify(args));
+	console.log(xhttp);
+}
+
 //student finished the exam
 function SubmitFinishedExam(){
 
@@ -585,7 +504,7 @@ function SubmitFinishedExam(){
 	//document.getElementById("result").innerHTML=args;
 	let xhttp = new XMLHttpRequest();
 
-  	xhttp.onreadystatechange = function() {
+  xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
 		if (this.response == "student"){
 

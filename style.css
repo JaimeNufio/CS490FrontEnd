@@ -306,7 +306,7 @@ input,button{
 
 .ExamTitle{
   padding-left:20px;
-  width:200px;
+  width:300px;
   float:left;
 }
 
@@ -343,6 +343,15 @@ input,button{
   margin-left: 20px;
 }
 
+.studentAns{
+  margin-top:10px;
+  margin-left:20px;
+  border-style: solid;
+  border-width: 1px;
+  background: #FFF;
+  border-color: #999;
+}
+
 .questionWritten > textarea{
   margin-top:10px;
   margin-left:20px;
@@ -362,6 +371,8 @@ input,button{
 .tittleContainer{
   width:500px;
 }
+
+
 
 /*
 input{

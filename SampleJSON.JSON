@@ -1,0 +1,28 @@
+{
+    "sn479" : {
+        "questions" : {
+            "oooof" : {
+                "func_name" : "add",
+                "arg_names" : ["x", "y"],
+                "description" : "stuff about question",
+                "inputs" : [ [1, 2], [6, 9] ],
+                "expected_outputs" : ["3","15"],
+                "difficulty" : "hard",
+                "topics" : ["lists", "files"]
+            },
+            "func_ID2" : {
+                "func_name" : "mult",
+                "arg_names" : ["num1", "num2"],
+                "description" : "stuff about question 2",
+                "inputs" : [ [5, 8], [7, 4] ],
+                "expected_outputs" : ["40","28"],
+                "difficulty" : "easy",
+                "topics" : ["turtle", "dictionary"]
+            }
+        },
+        "points" : [60, 40],
+        "answers" : ["def add(x, z):\nreturn x+z", "def mults(num1, num2):\n\treturn num1num2"],
+        "scores" : 100,
+        "comments" : ""
+    }
+ }
