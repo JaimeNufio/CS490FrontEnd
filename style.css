@@ -12,6 +12,10 @@ img{
 	padding-top:10px;
 }
 
+textarea{
+  resize: none;
+}
+
 #login{
   margin: 0 auto;
   width: 100%;
@@ -40,7 +44,7 @@ img{
   overflow: hidden;
 }
 
-#leftpannel{
+#leftpannel,.leftpannel{
   width:50%;
   height:100%;
   background: white;
@@ -52,7 +56,7 @@ img{
   float:left;
 }
 
-#rightpannel{
+#rightpannel, .rightpannel{
   width:50%;
   height:100%;
   background: white;
@@ -206,8 +210,13 @@ input,button{
   outline: solid;
   outline-width: thin;
   outline-color: #555;
-
 }
+
+.scroll.review{
+  height:525px;
+}
+
+
 
 .optionsrowitem{
  /* width:30%;*/
@@ -370,6 +379,14 @@ input,button{
 
 .tittleContainer{
   width:500px;
+}
+
+.answerDisplay{
+  margin-top:10px;
+  margin-left:20px;
+  margin-bottom:20px;
+  width:100%;
+
 }
 
 

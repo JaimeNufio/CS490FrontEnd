@@ -93,6 +93,9 @@ function login(){
 	console.log(xhttp);
 }
 
+function goToReview(){
+	window.location.href = "./teacherReview.html";
+}
 
 function handleClick(event) {
     event = event || window.event;
@@ -439,7 +442,6 @@ function sendExamBack(){
 //Presumably, theObject is already the single student exam
 function assembleExamComments(){
 
-		exam = JSON.parse(this.response);
 		let student = Object.keys(exam)[0];
 		console.log(student);
 
@@ -476,12 +478,11 @@ function LoadStudentExam(){
 	let args = {"username":document.getElementById("selectName").value};
 	console.log(`Trying for ${document.getElementById("selectName").value}`)
   xhttp.onreadystatechange = function() {
-
-	if (this.readyState == 4 && this.status == 200) {
-		assembleExamComments();
-		exam=JSON.parse(this.response);
+		if (this.readyState == 4 && this.status == 200) {
+			assembleExamComments();
+			exam=JSON.parse(this.response);
+		}
 	}
-}
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "review_grade");
@@ -541,6 +542,73 @@ function SubmitFinishedExam(){
 		xhttp1.send(JSON.stringify(args));
 		console.log(xhttp1);
 	};
+
+	xhttp.open("POST", scott, true);
+	xhttp.setRequestHeader("Request-Type", "login");
+	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	console.log(xhttp);
+	xhttp.send(JSON.stringify(args));
+}
+
+function assembleAnswersStudentReview(){
+
+	let student = Object.keys(exam)[0];
+	for (let i = 0; i<Object.keys(exam[student]['questions']).length;i++){
+		let key = Object.keys(exam[student]['questions'])[i];
+		let curr = exam['questions'][key];
+		document.getElementById("heap").innerHTML+=`<div style="background: #FFF;text-align: left" class="questionWritten">
+		<div>
+			<h2 class="questionTitle">Question ${i+1}:</h2>
+		</div>
+		<div class="questionText">
+		${curr['description']}
+		</div>
+		<div style="float:left; margin-left: 20px;">${exam['points'][i]}</div>
+		<div class="ans">Answer:</div>
+		<div class="answerDisplay" id="" onkeydown="return stopTab(event);">
+		${exam['answers'][i]}
+		</div>`
+	}
+	document.getElementById("comments").innerHTML=`<h1>FINAL SCORE: ${exam[student][score]}/100</h1>
+	<br>
+	<p>${exam[student][comments]}</p>`
+
+}
+
+function GetResults(){
+	let args = {
+		'username':""+document.getElementById("user").value,
+		'password':""+document.getElementById("pass").value
+	};
+
+	let xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if(this.response==" student"){
+
+				let student = this.response;
+				let xhttp1 = new XMLHttpRequest();
+
+				xhttp1.onreadystatechange = function() {
+					exam=JSON.parse(this.response);
+					assembleAnswersStudentReview();
+				}
+
+
+				xhttp1.open("POST", scott, true);
+				xhttp1.setRequestHeader("Request-Type", "review_grade");
+				xhttp1.setRequestHeader("Access-Control-Allow-Origin","*");
+				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				console.log(xhttp1);
+				xhttp1.send(JSON.stringify({"username":student}));
+
+
+
+
+			}
+		}
+	}
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "login");

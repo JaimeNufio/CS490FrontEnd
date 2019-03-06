@@ -7,39 +7,69 @@
   </head>
   <body>
     <div id="main" >
-      <div>
-        <h1 class="ExamTitle">Student Exam</h1>
-        <button id="ExamDone" onclick="SubmitFinishedExam()">Submit Exam</button>
-        <div style="width:200px;float:right; ">
-            <div style="margin-left:8px ; margin-top:15px; margin-bottom:3px;">Password:</div>
-            <input id="pass" class="select"></input>
-        </div>
-        <div style="width:200px;float:right; margin-right: 20px; margin-bottom:5px;">
-            <div style="margin-left: 8px; margin-top:15px; margin-bottom:3px;">Username:</div>
-            <input id="user" class="select"></input>
-        </div>
+        <div id="leftpannel"> <!-- This is the start of the Input  -->
+          <!-- <div class="title">
+             <div class="set">Topic Here</div>
+             <div class="set">Difficulty</div>
+             <div class="set">Keyword</div>
+           </div>
+           <hr>-->
+           <div class="pannel">
+             <div class="title">
+               <h1 class="left">Your Exam: </h1>
+               <hr>
+               <div id = "heap" class="scroll review">
+
+<!--
+                  <div style="background: #FFF;text-align: left" class="questionWritten">
+                      <div>
+                        <h2 class="questionTitle">Question ${i+1}:</h2>
+                      </div>
+                      <div class="questionText">
+                      ${curr['description']}
+                      </div>
+                      <div style="float:left; margin-left: 20px;">${exam['points'][i]}</div>
+                      <div class="ans">Answer:</div>
+                      <div class="answerDisplay" id="" onkeydown="return stopTab(event);">
+                      dfss
+                      </div>
+                    -->
+                      <hr>
+                    </div>
+
+
+                </div>
+             </div>
+             <div>
+                <button id="ExamDone" onclick="GetResults()">Login</button>
+                <div style="width:200px;float:left; ">
+                    <div style="margin-left:8px ; margin-top:15px; margin-bottom:3px;">Password:</div>
+                    <input id="pass" class="select"></input>
+                </div>
+                <div style="width:200px;float:left; margin-right: 20px; margin-bottom:5px;">
+                    <div style="margin-left: 8px; margin-top:15px; margin-bottom:3px;">Username:</div>
+                    <input id="user" class="select"></input>
+                </div>
+              </div>
+           </div>
+
+         </div>
+         <div id="rightpannel">
+           <div class="pannel">
+             <div class="title">
+               <h1 class="left">Comments:</h1>
+               <hr>
+             <div id = "comments" style="background: #FFF" class="scroll review">
+
+             </div>
+           </div>
+
+
+
+         <!-- end of right side-->
+         </div>
       </div>
-      <div id="exam" class="workArea scroll">
 
-        <!--
-        <div class="questionWritten">
-          <div>
-            <h2 class="questionTitle">Question 1:</h2>
-          </div>
-          <div class="questionText">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ac lorem gravida, congue mi at, venenatis sem. Cras efficitur purus magna, ut sodales ipsum scelerisque non. Duis condimentum eros turpis, ac dapibus urna vehicula vel. Aenean bibendum leo mauris, vel tincidunt orci gravida nec. Sed ut massa semper, imperdiet sem ut, vehicula lectus. Aliquam elementum fermentum purus a dictum. Phasellus euismod enim sed tortor imperdiet semper. Aenean ut commodo leo. Vivamus efficitur scelerisque lacus sed luctus. Ut facilisis nibh magna, eu ultricies leo vehicula sed.
-          </div>
-          <div class="ans">Answer:</div>
-          <textarea onkeydown="return stopTab(event);"></textarea>
-          <div style="float:right; padding-top:220px;padding-right:50px">50 Points</div>
-          <div style="float:right; padding-top:220px;padding-right:50px">Func_ID</div>
-          <hr>
-        </div>
-      -->
-
-
-
-      </div>
     </div>
     <script src="script.js"></script>
   </body>
