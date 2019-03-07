@@ -8,7 +8,7 @@ function sampleFetch(qtype){
             return {
                 username:"2",password:"2"
             }
-        break;
+            break;
         case "new_question":
             return {
                 "questions" : {
@@ -23,7 +23,7 @@ function sampleFetch(qtype){
                     }
                 }
             }
-        break;
+            break;
         case "new_exam":
             return {
                 "questions" : {
@@ -126,6 +126,7 @@ xhttp.setRequestHeader("Request-Type", "query");
 xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 console.log(qType);
+console.log(sampleFetch(qType));
 xhttp.send(JSON.stringify(sampleFetch(qType)));
 }
 function PUTdown(){
@@ -145,8 +146,8 @@ function PUTdown(){
     xhttp.setRequestHeader("Request-Type", "query");
     xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-console.log(qType);
+    console.log(qType);
+    console.log(sampleFetch(qType));
     xhttp.send(JSON.stringify(sampleFetch(qType)));
 }
     function GETdown(){
@@ -167,5 +168,6 @@ console.log(qType);
         xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         console.log(qType);
+        console.log(sampleFetch(qType));
         xhttp.send(JSON.stringify(sampleFetch(qType)));
     }
