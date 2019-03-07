@@ -110,7 +110,7 @@ function sampleFetch(qtype){
 
 function POSTdown(){
 let xhttp = new XMLHttpRequest();
-let qType = document.getElementById("qtype").nodeValue;
+let qType = document.getElementById("qtype").value;
 xhttp.onreadystatechange = function() {
 
     if (this.readyState == 4 && this.status == 200) {
@@ -125,11 +125,12 @@ xhttp.open("POST", scott, true);
 xhttp.setRequestHeader("Request-Type", "query");
 xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+console.log(qType);
 xhttp.send(JSON.stringify(sampleFetch(qType)));
 }
 function PUTdown(){
     let xhttp = new XMLHttpRequest();
-    let qType = document.getElementById("qtype").nodeValue;
+    let qType = document.getElementById("qtype").value;
     xhttp.onreadystatechange = function() {
 
         if (this.readyState == 4 && this.status == 200) {
@@ -144,11 +145,13 @@ function PUTdown(){
     xhttp.setRequestHeader("Request-Type", "query");
     xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+console.log(qType);
     xhttp.send(JSON.stringify(sampleFetch(qType)));
 }
     function GETdown(){
         let xhttp = new XMLHttpRequest();
-        let qType = document.getElementById("qtype").nodeValue;
+        let qType = document.getElementById("qtype").value;
         xhttp.onreadystatechange = function() {
 
             if (this.readyState == 4 && this.status == 200) {
@@ -163,5 +166,6 @@ function PUTdown(){
         xhttp.setRequestHeader("Request-Type", "query");
         xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        console.log(qType);
         xhttp.send(JSON.stringify(sampleFetch(qType)));
     }
