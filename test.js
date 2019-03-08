@@ -6,17 +6,18 @@ function sampleFetch(qtype){
     switch(qtype){
         case "login":
             return {
-                username:"2",password:"2"
+                "username":"2",
+								"password":"2"
             }
             break;
         case "new_question":
             return {
                 "questions" : {
-                    "func_ID" : {
-                        "func_name" : "func1",
+                    "Sad face emoji" : {
+                        "func_name" : "notfuck",
                         "arg_names" : "num1, num2",
                         "description" : "add two numbers together",
-                        "inputs" : ["1", "2"],
+                        "inputs" : [["1", "2"],["4","5"]],
                         "expected_outputs" : ["5","6"],
                         "difficulty" : "hard",
                         "topics" : ["lists", "files","if"]
@@ -51,9 +52,9 @@ function sampleFetch(qtype){
         break;
         case "query":
             return {
-            "keywords" : ["fuck"],
-            "topics" : ["lists"],
-            "difficulty" : "easy"
+            "keywords" : ["add"],
+            "topics" : ["files"],
+            "difficulty" : "hard"
             }
 
         break;
@@ -80,7 +81,7 @@ function sampleFetch(qtype){
                             "func_name" : "add",
                             "arg_names" : ["x", "y"],
                             "description" : "stuff about question",
-                            "inputs" : [ [1, 2], [6, 9] ],
+                            "inputs" : [ ["1","2"], ["6", "9"] ],
                             "expected_outputs" : ["3","15"],
                             "difficulty" : "hard",
                             "topics" : ["lists", "files"]
@@ -89,7 +90,7 @@ function sampleFetch(qtype){
                             "func_name" : "mult",
                             "arg_names" : ["num1", "num2"],
                             "description" : "stuff about question 2",
-                            "inputs" : [ [5, 8], [7, 4] ],
+                            "inputs" : [ ["5", "8"], ["7", "4"] ],
                             "expected_outputs" : ["40","28"],
                             "difficulty" : "easy",
                             "topics" : ["turtle", "dictionary"]
@@ -112,17 +113,19 @@ function POSTdown(){
 let xhttp = new XMLHttpRequest();
 let qType = document.getElementById("qtype").value;
 xhttp.onreadystatechange = function() {
-
     if (this.readyState == 4 && this.status == 200) {
+        console.log("GOT\n");
         console.log(this.response);
-    }else{
+    }else if (this.status != 200){
+				console.log("ReadState:"+this.readyState);
+				console.log("Status:"+this.status);
         console.log("failed.")
     }
 
   };
 
 xhttp.open("POST", scott, true);
-xhttp.setRequestHeader("Request-Type", "query");
+xhttp.setRequestHeader("Request-Type", qType);
 xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 console.log(qType);
@@ -135,15 +138,18 @@ function PUTdown(){
     xhttp.onreadystatechange = function() {
 
         if (this.readyState == 4 && this.status == 200) {
+            console.log("GOT\n");
             console.log(this.response);
-        }else{
+        }else if (this.status != 200){
+						console.log("ReadState:"+this.readyState);
+						console.log("Status:"+this.status);
             console.log("failed.")
         }
 
       };
 
     xhttp.open("PUT", scott, true);
-    xhttp.setRequestHeader("Request-Type", "query");
+    xhttp.setRequestHeader("Request-Type", qType);
     xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     console.log(qType);
@@ -156,15 +162,18 @@ function PUTdown(){
         xhttp.onreadystatechange = function() {
 
             if (this.readyState == 4 && this.status == 200) {
+                console.log("GOT\n");
                 console.log(this.response);
-            }else{
+            }else if (this.status != 200){
+								console.log("ReadState:"+this.readyState);
+								console.log("Status:"+this.status);
                 console.log("failed.")
             }
 
           };
 
         xhttp.open("GET", scott, true);
-        xhttp.setRequestHeader("Request-Type", "query");
+        xhttp.setRequestHeader("Request-Type", qType);
         xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         console.log(qType);

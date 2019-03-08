@@ -180,7 +180,7 @@ function createJSONQuestionAdd(){
 				"inputs" : [document.getElementById("in1").value.split(","), document.getElementById("in2").value.split(",")],
 				"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
 				"difficulty" : document.getElementById("difficulty").value,
-				"topic" : document.getElementById("topic").value
+				"topic" : [document.getElementById("topic").value]
 				}
 			}
 		}
@@ -195,10 +195,9 @@ function createJSONQuestionAdd(){
 
 		};
 
-		xhttp.open("POST", handle, true);
+		xhttp.open("POST", scott, true);
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhttp.setRequestHeader("Request-Type", "new-question");
-		xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+		xhttp.setRequestHeader("Request-Type", "new_question");
 		xhttp.send(JSON.stringify(question));
 		console.log(question);
 		console.log(xhttp);
@@ -213,7 +212,7 @@ function createJSONQuestionQuery(){
 	//For Matt, tell him that if the querry['x'] is empty, skip this search portion.
 	//If all the variables are empty, send all.
 	let query = {
-		"topic" : document.getElementById("qtopic").value,
+		"topics" : [document.getElementById("qtopic").value],
 		"keywords": document.getElementById("qkeywords").value.split(","),
 		"difficulty": document.getElementById("qdifficulty").value
 	}
@@ -223,17 +222,15 @@ function createJSONQuestionQuery(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.response);
 			theObject = JSON.parse(this.response);
 			CreateListForTeacher(); //Redraw the list based on new Query
-		}else{
-			console.log("failed to draw.")
 		}
 
   	};
 
 	xhttp.open("POST", scott, true);
 	xhttp.setRequestHeader("Request-Type", "query");
-	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
