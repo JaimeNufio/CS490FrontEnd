@@ -132,7 +132,7 @@ function ButtonStateHandler(button) {
 			functionWorth.push((val));
 			let key = Object.keys(theObject)[buttonId];
 			let obj = theObject[key];
-
+			console.log("adding following to functionList");
 			console.log(Object.keys(theObject)[buttonId]);
 			//console.log(button.parentElement.parentElement.parentElement.parentElement.id);
 			functionList.push(Object.keys(theObject)[buttonId]);
@@ -358,7 +358,7 @@ function submitExam(){
 	}else{
 
 	let query = createExam();
-
+	console.log(functionList);
 	let xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function() {
@@ -374,6 +374,7 @@ function submitExam(){
 	xhttp.setRequestHeader("Request-Type", "release");
 	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	console.log(query);
 	xhttp.send(JSON.stringify(query));
 	console.log(xhttp);
 	}
