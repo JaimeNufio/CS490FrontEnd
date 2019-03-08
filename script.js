@@ -315,9 +315,11 @@ function CreateListForTeacher(){
 	var scroll = document.getElementById("heap");
 	scroll.innerHTML = ""; //Erase the current.
 
+	console.log("um")
 
 	for (let i = 0; i<Object.keys(theObject['questions']).length;i++){
-		let key = Object.keys(theObject)[i];
+
+		let key = Object.keys(theObject['questions'])[i];
 		let obj = theObject[key]['topic']
 		//console.log([obj])
 		let piece = buildTextUnit(theObject[key]['topic'],key,theObject[key]['description'],theObject[key]['difficulty']);
@@ -341,7 +343,10 @@ function arrayToWords(l){
 function createExam(){
 	var examOut = {"questions":{}};
 	for (let i = 0;i<functionList.length;i++){
+		console.log(i)
+		console.log(functionList[i]);
 		//console.log(theObject[functionList[i]]);
+
 		let key = functionList[i];
 		examOut['questions'][key] = theObject[functionList[i]];
 	}
