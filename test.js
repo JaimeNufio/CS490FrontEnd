@@ -12,101 +12,45 @@ function sampleFetch(qtype){
             break;
 				case "submit":
 
-					return {
-					    "sn479" : {
+				return {
+                    "sn479" : {
 
-							    "questions" : {
-									        "1" : {
-													            "func_name" : "adds",
-																			            "arg_names" : ["num1, num2"],
-																									            "description" : "add two numbers together",
-																															            "inputs" : [["1", "2"], ["8", "4"]],
-																																					            "expected_outputs" : ["3","12"],
-																																											            "difficulty" : "easy",
-																																																	            "topics" : ["lists"]
-																																																							        },
-																																																											        "2" : {
-																																																															            "func_name" : "multiply",
-																																																																					            "arg_names" : ["x, y"],
-																																																																											            "description" : "multiply two numbesr together",
-																																																																																	            "inputs" : [["4", "8"], ["8", "8"]],
-																																																																																							            "expected_outputs" : ["32","64"],
-																																																																																													            "difficulty" : "easy",
-																																																																																																			            "topics" : ["lists"]
-																																																																																																									        },
-																																																																																																													        "3" : {
-																																																																																																																	            "func_name" : "max",
-																																																																																																																							            "arg_names" : ["a, b"],
-																																																																																																																													            "description" : "find the max",
-																																																																																																																																			            "inputs" : [["9", "4"], ["10", "45"]],
-																																																																																																																																									            "expected_outputs" : ["9","45"],
-																																																																																																																																															            "difficulty" : "easy",
-																																																																																																																																																					            "topics" : ["lists"]
-																																																																																																																																																											        },
-																																																																																																																																																															        "points" : [50, 40, 10],
-																																																																																																																																																																			        "score" : 0,
-																																																																																																																																																																							        "answers" : ["def add(x, num2):\n\treturn x+num2", "def mult(x, y):\n\treturn x-y", "def maxs(x, b):\n\treturn bleh"],
-																																																																																																																																																																											        "comments" : ""
-																																																																																																																																																																															    }
-																																																																																																																																																																																	 }
-																																																																																																																																																																																	 };
-					break;
-        case "new_question":
-            return {
-                "questions" : {
-                    "Sad face emoji" : {
-                        "func_name" : "notfuck",
-                        "arg_names" : "num1, num2",
-                        "description" : "add two numbers together",
-                        "inputs" : [["1", "2"],["4","5"]],
-                        "expected_outputs" : ["5","6"],
-                        "difficulty" : "hard",
-                        "topics" : ["lists", "files","if"]
+                    "questions" : {
+                        "1" : {
+                            "func_name" : "adds",
+                            "arg_names" : ["num1, num2"],
+                            "description" : "add two numbers together",
+                            "inputs" : [["1", "2"], ["8", "4"]],
+                            "expected_outputs" : ["3","12"],
+                            "difficulty" : "easy",
+                            "topics" : ["lists"]
+                        },
+                        "2" : {
+                            "func_name" : "multiply",
+                            "arg_names" : ["x, y"],
+                            "description" : "multiply two numbesr together",
+                            "inputs" : [["4", "8"], ["8", "8"]],
+                            "expected_outputs" : ["32","64"],
+                            "difficulty" : "easy",
+                            "topics" : ["lists"]
+                        },
+                        "3" : {
+                            "func_name" : "max",
+                            "arg_names" : ["a, b"],
+                            "description" : "find the max",
+                            "inputs" : [["9", "4"], ["10", "45"]],
+                            "expected_outputs" : ["9","45"],
+                            "difficulty" : "easy",
+                            "topics" : ["lists"]
+                        },
+                        "points" : [50, 40, 10],
+                        "score" : 0,
+                        "answers" : ["def add(x, num2):\n\treturn x+num2", "def mult(x, y):\n\treturn x-y", "def maxs(x, b):\n\treturn bleh"],
+                        "comments" : ""
                     }
-                }
-            }
-            break;
-        case "new_exam":
-            return {
-						    "sn479" : {
+                 }
+                };
 
-								    
-										    "questions" : {
-												        "1" : {
-																            "func_name" : "adds",
-																						            "arg_names" : ["num1, num2"],
-																												            "description" : "add two numbers together",
-																																		            "inputs" : [["1", "2"], ["8", "4"]],
-																																								            "expected_outputs" : ["3","12"],
-																																														            "difficulty" : "easy",
-																																																				            "topics" : ["lists"]
-																																																										        },
-																																																														        "2" : {
-																																																																		            "func_name" : "multiply",
-																																																																								            "arg_names" : ["x, y"],
-																																																																														            "description" : "multiply two numbesr together",
-																																																																																				            "inputs" : [["4", "8"], ["8", "8"]],
-																																																																																										            "expected_outputs" : ["32","64"],
-																																																																																																            "difficulty" : "easy",
-																																																																																																						            "topics" : ["lists"]
-																																																																																																												        },
-																																																																																																																        "3" : {
-																																																																																																																				            "func_name" : "max",
-																																																																																																																										            "arg_names" : ["a, b"],
-																																																																																																																																            "description" : "find the max",
-																																																																																																																																						            "inputs" : [["9", "4"], ["10", "45"]],
-																																																																																																																																												            "expected_outputs" : ["9","45"],
-																																																																																																																																																		            "difficulty" : "easy",
-																																																																																																																																																								            "topics" : ["lists"]
-																																																																																																																																																														        },
-																																																																																																																																																																		        "points" : [50, 40, 10],
-																																																																																																																																																																						        "score" : 0,
-																																																																																																																																																																										        "answers" : ["def add(x, num2):\n\treturn x+num2", "def mult(x, y):\n\treturn x-y", "def maxs(x, b):\n\treturn bleh"],
-																																																																																																																																																																														        "comments" : ""
-																																																																																																																																																																																		    }
-																																																																																																																																																																																				 }
-																																																																																																																																																																																				 };
-        
 				break;
         case "query":
             return {
