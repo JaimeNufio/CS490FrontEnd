@@ -9,7 +9,7 @@ else if (document.attachEvent) {
     document.attachEvent("onclick", handleClick);
 }
 
-var absoluteQNum = 0;
+var absoluteQNum = 0
 var result = document.getElementById("result");
 var result1 = document.getElementById("result1");
 var total = 0; //pts of test
@@ -149,6 +149,7 @@ function ButtonStateHandler(button) {
 		button.parentElement.getElementsByClassName('select')[0].readOnly = false;
 		button.innerHTML = "Append";
 
+		console.log("from folloing to functionList");
 		console.log(Object.keys(theObject)[buttonId]);
 
 		for (var i =0; i < functionList.length;i++){
@@ -159,6 +160,7 @@ function ButtonStateHandler(button) {
 		}
 	}
 	document.getElementById("total").innerHTML=`${total}/100`;
+	console.log("funciton list follows");
 	console.log(functionList);
 	console.log(functionWorth);
 }
@@ -313,12 +315,10 @@ function CreateListForTeacher(){
 	var scroll = document.getElementById("heap");
 	scroll.innerHTML = ""; //Erase the current.
 
-	qNum = 0;
 
-	for (let i = 0; i<Object.keys(theObject).length;i++){
+	for (let i = 0; i<Object.keys(theObject['questions']).length;i++){
 		let key = Object.keys(theObject)[i];
 		let obj = theObject[key]['topic']
-		console.log("key: "+key)
 		//console.log([obj])
 		let piece = buildTextUnit(theObject[key]['topic'],key,theObject[key]['description'],theObject[key]['difficulty']);
 		scroll.innerHTML+=piece;
@@ -365,7 +365,7 @@ function submitExam(){
 
 		if (this.readyState == 4 && this.status == 200) {
 			console.log(this.response);
-		//	theObject = JSON.decode(response);
+			theObject = JSON.decode(response);
 		}
 
   	};

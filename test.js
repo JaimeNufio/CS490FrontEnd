@@ -7,50 +7,48 @@ function sampleFetch(qtype){
         case "login":
             return {
                 "username":"2",
-								"password":"2"
+		"password":"2"
             }
             break;
-				case "submit":
+	case "submit":
+		return {
+		    "sn479" : {
 
-				return {
-                    "sn479" : {
-
-                    "questions" : {
-                        "1" : {
-                            "func_name" : "adds",
-                            "arg_names" : ["num1, num2"],
-                            "description" : "add two numbers together",
-                            "inputs" : [["1", "2"], ["8", "4"]],
-                            "expected_outputs" : ["3","12"],
-                            "difficulty" : "easy",
-                            "topics" : ["lists"]
-                        },
-                        "2" : {
-                            "func_name" : "multiply",
-                            "arg_names" : ["x, y"],
-                            "description" : "multiply two numbesr together",
-                            "inputs" : [["4", "8"], ["8", "8"]],
-                            "expected_outputs" : ["32","64"],
-                            "difficulty" : "easy",
-                            "topics" : ["lists"]
-                        },
-                        "3" : {
-                            "func_name" : "max",
-                            "arg_names" : ["a, b"],
-                            "description" : "find the max",
-                            "inputs" : [["9", "4"], ["10", "45"]],
-                            "expected_outputs" : ["9","45"],
-                            "difficulty" : "easy",
-                            "topics" : ["lists"]
-                        },
-                        "points" : [50, 40, 10],
-                        "score" : 0,
-                        "answers" : ["def add(x, num2):\n\treturn x+num2", "def mult(x, y):\n\treturn x-y", "def maxs(x, b):\n\treturn bleh"],
-                        "comments" : ""
-                    }
-                 }
-                };
-
+		        "questions" : {
+			        "1" : {
+				            "func_name" : "adds",
+					                "arg_names" : ["num1", "num2"],
+							            "description" : "add two numbers together",
+								                "inputs" : [["1", "2"], ["8", "4"]],
+										            "expected_outputs" : ["3","12"],
+											                "difficulty" : "easy",
+													            "topics" : ["lists"]
+														            },
+															            "2" : {
+																                "func_name" : "multiply",
+																		            "arg_names" : ["x", "y"],
+																			                "description" : "multiply two numbesr together",
+																					            "inputs" : [["4", "8"], ["8", "8"]],
+																						                "expected_outputs" : ["32","64"],
+																								            "difficulty" : "easy",
+																									                "topics" : ["lists"]
+																											        },
+																												        "3" : {
+																													            "func_name" : "max",
+																														                "arg_names" : ["a", "b"],
+																																            "description" : "find the max",
+																																	                "inputs" : [["9", "4"], ["10", "45"]],
+																																			            "expected_outputs" : ["9","45"],
+																																				                "difficulty" : "easy",
+																																						            "topics" : ["lists"]
+																																							            }
+																																								        },
+																																									        "points" : [50, 40, 10],
+																																										        "score" : 0,
+																																											        "answers" : ["def add(x, num2):\n\treturn x+num2", "def mult(x, y):\n\treturn x-y", "def maxs(x, b):\n\treturn bleh"],
+																																												        "comments" : ""
+																																													    }
+																																													     };
 				break;
         case "query":
             return {
@@ -116,13 +114,16 @@ xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         console.log("GOT\n");
         console.log(this.response);
+	document.getElementById("text").innerHTML=this.response;
+    }else{
+    	console.log(this.status);	
     }
 
   };
 
 				xhttp.open("POST", scott, true);
 				xhttp.setRequestHeader("Request-Type", qType);
-				xhttp.setRequestHeader("Content-Type", "application/json");
+				xhttp.setRequestHeader("Content-Type", "application/json;charset=utf-8;");
 				console.log(qType);
 				console.log(sampleFetch(qType));
 				xhttp.send(JSON.stringify(sampleFetch(qType)));
