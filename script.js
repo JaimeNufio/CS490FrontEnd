@@ -16,34 +16,8 @@ var total = 0; //pts of test
 var qNum = 0;
 
 //theObject will be assigned to the value of var['questions']
-var exam ={
-	"sn479" : {
-			"questions" : {
-					"FunctionName" : {
-							"func_name" : "add",
-							"arg_names" : ["x", "y"],
-							"description" : "stuff about question",
-							"inputs" : [ [1, 2], [6, 9] ],
-							"expected_outputs" : ["3","15"],
-							"difficulty" : "hard",
-							"topics" : ["lists", "files"]
-					},
-					"func_ID2" : {
-							"func_name" : "mult",
-							"arg_names" : ["num1", "num2"],
-							"description" : "stuff about question 2",
-							"inputs" : [ [5, 8], [7, 4] ],
-							"expected_outputs" : ["40","28"],
-							"difficulty" : "easy",
-							"topics" : ["turtle", "dictionary"]
-					}
-			},
-			"points" : [60, 40],
-			"answers" : ["def add(x, z):\nreturn x+z", "def mults(num1, num2):\n\treturn num1num2"],
-			"scores" : 100,
-			"comments" : ""
-	}
-};
+var exam = {};
+var theObject={};
 
 
 
@@ -74,7 +48,27 @@ function login(){
 				window.location.href = "./teacherSearch.html";
 			}else{
 				result.innerHTML+="Login valid, Redirecting.\n";
-				window.location.href = "./studentTake.html";
+				
+				//Check if Released
+				let xhttp1 = new XMLHttpRequest();
+  			xhttp1.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+							console.log(this.repsonse);
+						if (this.response == ""){
+					//		window.location.href = "./studentReview.html";
+						}else{
+							window.location.href = "./studentTake.html";
+						}
+					}
+				}
+
+				xhttp1.open("POST", scott, true);
+				xhttp1.setRequestHeader("Request-Type", "is_released");
+				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhttp1.setRequestHeader("Access-Control-Allow-Origin","*");
+				xhttp1.send(JSON.stringify(args));
+				console.log(xhttp1);
+			
 			}
 		}else{
 			result.style.color="#e40042";
@@ -135,7 +129,7 @@ function ButtonStateHandler(button) {
 			console.log("adding following to functionList");
 			console.log(Object.keys(theObject)[buttonId]);
 			//console.log(button.parentElement.parentElement.parentElement.parentElement.id);
-			functionList.push(Object.keys(theObject)[buttonId]);
+			functionList.push(Object.keys(theObject['questions'])[buttonId]);
 
 		}else{
 			console.log("NaN");
@@ -150,7 +144,7 @@ function ButtonStateHandler(button) {
 		button.innerHTML = "Append";
 
 		console.log("from folloing to functionList");
-		console.log(Object.keys(theObject)[buttonId]);
+		console.log(Object.keys(theObject['questions'])[buttonId]);
 
 		for (var i =0; i < functionList.length;i++){
 			if (functionList[i]===Object.keys(theObject)[buttonId]){
@@ -169,7 +163,7 @@ function createJSONQuestionAdd(){
 
 	if (document.getElementById("fname").value.length == 0 || document.getElementById("vars").length == 0 ||
 	document.getElementById("desc").length == 0 || document.getElementById("in1").length == 0 ||
-	document.getElementById("out1").length == 0 || document.getElementById("topic").length == 0 ||
+	document.getElementById("out1").length == 0 || document.getElementById("topics").length == 0 ||
 	document.getElementById("in2").length == 0 || document.getElementById("out2").length == 0 ){
 		console.log("Something is empty...");
 	}else{
@@ -182,7 +176,7 @@ function createJSONQuestionAdd(){
 				"inputs" : [document.getElementById("in1").value.split(","), document.getElementById("in2").value.split(",")],
 				"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
 				"difficulty" : document.getElementById("difficulty").value,
-				"topic" : [document.getElementById("topic").value]
+				"topics" : [document.getElementById("topics").value]
 				}
 			}
 		}
@@ -193,6 +187,7 @@ function createJSONQuestionAdd(){
 
 			if (this.readyState == 4 && this.status == 200) {
 				console.log("back should have gotten the question");
+				createJSONQuestionQuery();
 			}
 
 		};
@@ -205,12 +200,13 @@ function createJSONQuestionAdd(){
 		console.log(xhttp);
 
 		//Update the search bar, new question might appear.
-		createJSONQuestionQuery();
 	}
 }
 
 //This function is called every update on the search, hopefully rewritting the divs won't be a problem?
 function createJSONQuestionQuery(){
+	console.log("Query Called");
+
 	//For Matt, tell him that if the querry['x'] is empty, skip this search portion.
 	//If all the variables are empty, send all.
 	let query = {
@@ -239,24 +235,19 @@ function createJSONQuestionQuery(){
 }
 
 function releaseScores(){
-	let query = {};
 
 	let xhttp = new XMLHttpRequest();
-
 	xhttp.onreadystatechange = function() {
-
 		if (this.readyState == 4 && this.status == 200) {
 			theObject = JSON.parse(this.response);
-			CreateListForTeacher(); //Redraw the list based on new Query
+		//	CreateListForTeacher(); //Redraw the list based on new Query
 		}
-
-  	};
+  };
 
 	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request_Type", "release");
-	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+	xhttp.setRequestHeader("Request-Type", "release");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send(JSON.stringify(query));
+	xhttp.send();
 	console.log(xhttp);
 }
 
@@ -298,31 +289,22 @@ function buildTextUnit(topic, func_name, desc, difficulty){
 	  </div>
 	</div>
   </div>`;
-
-
-	/*`<div class="questionPreview">
-	<div class="questionPreviewTitle">TOPIC: ${topic} KEYWORDS: ${keywords}</div>
-	<hr>
-	<div class="questionPreviewText">	${desc}</div>
-	<hr>
-	<div class = "questionPreviewDifficulty">Difficulty: ${difficulty}</div>
-	</div>`*/
-
 }
 
 function CreateListForTeacher(){
-
 	var scroll = document.getElementById("heap");
 	scroll.innerHTML = ""; //Erase the current.
-
-	console.log("um")
 
 	for (let i = 0; i<Object.keys(theObject['questions']).length;i++){
 
 		let key = Object.keys(theObject['questions'])[i];
-		let obj = theObject[key]['topic']
+		let obj = theObject['questions'][key]['topics']
 		//console.log([obj])
-		let piece = buildTextUnit(theObject[key]['topic'],key,theObject[key]['description'],theObject[key]['difficulty']);
+		let piece = buildTextUnit(
+		theObject['questions'][key]['topics'],
+		key,
+		theObject['questions'][key]['description'],
+		theObject['questions'][key]['difficulty']);
 		scroll.innerHTML+=piece;
 		qNum++;
 	}
@@ -342,14 +324,16 @@ function arrayToWords(l){
 
 function createExam(){
 	var examOut = {"questions":{}};
+	
 	for (let i = 0;i<functionList.length;i++){
-		console.log(i)
+		console.log(i);
 		console.log(functionList[i]);
 		//console.log(theObject[functionList[i]]);
 
 		let key = functionList[i];
 		examOut['questions'][key] = theObject[functionList[i]];
 	}
+
 	examOut['points'] = functionWorth;
 	console.log(examOut);
 
@@ -370,13 +354,13 @@ function submitExam(){
 
 		if (this.readyState == 4 && this.status == 200) {
 			console.log(this.response);
-			theObject = JSON.decode(response);
+			//theObject = JSON.decode(this.response);
 		}
 
   	};
 
 	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request-Type", "release");
+	xhttp.setRequestHeader("Request-Type", "new_exam");
 	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	console.log(query);
@@ -417,7 +401,7 @@ function sendExamBack(){
 	let args = {"username":document.getElementById("selectName")};
 	console.log(`Trying for ${document.getElementById("selectName")}`)
 
-	NewExam = Exam;
+	NewExam = exam;
 
 	let student = Object.keys(exam)[0];
 	console.log(student);
@@ -461,6 +445,7 @@ function assembleExamComments(){
 				${curr['description']}
 			</div>
 			<div class="ans">Answer Given:</div>
+
 			<div class="studentAns"></div>
 			<div class="ans" style="width:200px;">
 				<div style="float:left; margin-top:15px; margin-bottom:3px;">Points Delta:</div>
@@ -475,6 +460,8 @@ function assembleExamComments(){
 		}
 }
 
+//For Review
+//TODO fails to show answers
 function LoadStudentExam(){
 
 	let xhttp = new XMLHttpRequest();
@@ -482,8 +469,8 @@ function LoadStudentExam(){
 	console.log(`Trying for ${document.getElementById("selectName").value}`)
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			assembleExamComments();
 			exam=JSON.parse(this.response);
+			assembleExamComments();
 		}
 	}
 
@@ -495,9 +482,10 @@ function LoadStudentExam(){
 	console.log(xhttp);
 }
 
+
 //student finished the exam
 function SubmitFinishedExam(){
-
+	
 	let args = {
 		'username':""+document.getElementById("user").value,
 		'password':""+document.getElementById("pass").value
@@ -510,40 +498,36 @@ function SubmitFinishedExam(){
 
   xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
-		if (this.response == "student"){
-
-			//TODO test this section outside of this nested http
-			//need to determine if the structure is correct
+		if (this.response == " student"){
+			console.log(exam['questions']);	
+			//TODO JSON not working, answers not displayed, not being built
 			var complete = {};
-
+			complete[args['username']] = {};
 			complete[args['username']]['questions'] = exam['questions'];
 			complete['points'] = exam['points'];
 			complete['answers'] = [];
 			complete['score'] = 0;
 			complete['comments'] = "";
 
-			for (let i = 0; i<exam['points'].length;i++){
-				exam['answers'][i] = document.getElementById(i).value;
+				for (let i = 0; i< exam['points'].length; i++){
+					complete['answers'][i] = document.getElementById(i).value;
+				}
 			}
 
+			let xhttp1 = new XMLHttpRequest();
+			xhttp1.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log("Done?")
+				}
 			}
+
+			console.log(complete);
+			xhttp1.open("POST", scott, true);
+			xhttp1.setRequestHeader("Request-Type", "submit");
+			xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhttp1.send(JSON.stringify(exam));
+			console.log(xhttp1);
 		}
-		console.log(exam);
-		let xhttp1 = new XMLHttpRequest();
-		xhttp1.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				console.log("Done?")
-			}
-		}
-
-
-
-		xhttp1.open("POST", scott, true);
-		xhttp1.setRequestHeader("Request-Type", "submit_exam");
-		xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
-		xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhttp1.send(JSON.stringify(args));
-		console.log(xhttp1);
 	};
 
 	xhttp.open("POST", scott, true);
@@ -552,6 +536,30 @@ function SubmitFinishedExam(){
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	console.log(xhttp);
 	xhttp.send(JSON.stringify(args));
+}
+
+//For Taking
+function LoadStudentExamTake(){
+	
+	if (document.URL.includes("studentTake")){
+		let xhttp = new XMLHttpRequest();
+		//console.log(`Trying for ${document.getElementById("selectName").value}`)
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			exam = JSON.parse(this.response);
+			assembleExam();
+			}
+		}
+
+		xhttp.open("POST", scott, true);
+		xhttp.setRequestHeader("Request-Type", "take_exam");
+		xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhttp.send("");
+		console.log(xhttp);
+	}else{
+		console.log(document.URL);
+	}
 }
 
 function assembleAnswersStudentReview(){
@@ -597,18 +605,12 @@ function GetResults(){
 					exam=JSON.parse(this.response);
 					assembleAnswersStudentReview();
 				}
-
-
 				xhttp1.open("POST", scott, true);
 				xhttp1.setRequestHeader("Request-Type", "review_grade");
 				xhttp1.setRequestHeader("Access-Control-Allow-Origin","*");
 				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				console.log(xhttp1);
 				xhttp1.send(JSON.stringify({"username":student}));
-
-
-
-
 			}
 		}
 	}
@@ -658,11 +660,15 @@ function onKeyDown(e) {
 //assembleExam();
 
 //On Load, we're required to know the # of functions in the DB
-createAbsoluteNumQuery()
 //Create a list of questions for the teacher to skim
 //CreateListForTeacher();
+try{
+createAbsoluteNumQuery();
+LoadStudentExamTake();
 createJSONQuestionQuery();																																																		  //
+}catch(err){
 
+}
 
 
 //TODO
