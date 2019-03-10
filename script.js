@@ -167,7 +167,9 @@ function createJSONQuestionAdd(){
 	document.getElementById("in2").length == 0 || document.getElementById("out2").length == 0 ){
 		console.log("Something is empty...");
 	}else{
-		let id = document.getElementById("fname").value+"--"+String(absoluteQNum+1);
+
+		let id = document.getElementById("fname").value+"__"+String(absoluteQNum+1);
+		console.log("new id is "+id);
 		let question = {"questions":{
 			[id] : {
 				"func_name" : document.getElementById("fname").value,
@@ -269,9 +271,17 @@ function createAbsoluteNumQuery(){
 	console.log(xhttp);
 }
 
-function buildTextUnit(topic, func_name, desc, difficulty){
+function buildTextUnit(topic, name, desc, difficulty){
+	let topicList = "";
+	for (let i = 0; i <topic.length;i++){
+		topicList+=topic[i];
+		if (i < topic.length-1){
+			topicList+=", ";
+		}
+	}
+
 	return `<div class="questionPreview" id = ${qNum}>
-	<div class="questionPreviewTitle">ID: ${func_name} TOPIC: ${topic}</div>
+	<div class="questionPreviewTitle">Function Name: ${name} </div>
 	<hr>
 	<div class="questionPreviewText">
 		<span class="smallHeading">Question:</span>
@@ -279,10 +289,11 @@ function buildTextUnit(topic, func_name, desc, difficulty){
 		<div>
 			${desc}
 		</div>
+		<span class="smallerHeading"><br>Topics: ${topicList}<br></span>
 	<hr>
 	<div class="questionPreviewHandler">
 	  <div style="margin-top:8px;" class="questionPreviewContainer">
-		<div style="margin-top:8px; margin-right:5px; margin-left:5px" class="questionPreviewDifficulty">Difficulty: ${difficulty}</div>
+		<div style="margin-top:8px; margin-right:5px; margin-left:0px" class="questionPreviewDifficulty">Difficulty: ${difficulty}</div>
 		<div style="float:left;margin-top:8px; margin-right:5px">Points Value:</div>
 		<input class="select pts" style="height:15px;float:left;width:10%;margin-top:5px"></input>
 		<button style="float:right; margin-right:20px; width:20%;" class="up questionPreviewButton">Append</button>
@@ -294,12 +305,11 @@ function buildTextUnit(topic, func_name, desc, difficulty){
 function CreateListForTeacher(){
 	var scroll = document.getElementById("heap");
 	scroll.innerHTML = ""; //Erase the current.
-
+	console.log('list for teachers');
+	console.log(theObject['questions']);
 	for (let i = 0; i<Object.keys(theObject['questions']).length;i++){
-
 		let key = Object.keys(theObject['questions'])[i];
 		let obj = theObject['questions'][key]['topics']
-		//console.log([obj])
 		let piece = buildTextUnit(
 		theObject['questions'][key]['topics'],
 		key,
@@ -375,6 +385,13 @@ function assembleExam(){
 	for (let i = 0; i<Object.keys(exam['questions']).length;i++){
 		let key = Object.keys(exam['questions'])[i];
 		let curr = exam['questions'][key];
+		let tlist = "";
+		for (let i = 0; i<curr['arg_names'].length;i++){
+			tlist+=`\"${curr['arg_names'][i]}\"`;
+			if (i < curr['arg_names'].length-1){
+				tlist+=" and ";
+			}
+		}
 
 		document.getElementById('exam').innerHTML+=`
 		<div class="questionWritten">
@@ -382,7 +399,7 @@ function assembleExam(){
 		  <h2 class="questionTitle">Question ${i+1}:</h2>
 		</div>
 		<div class="questionText">
-		${curr['description']}
+		Create a function called \"${curr['func_name']}\" that takes arguments ${tlist} that can do the following:  ${curr['description']}
 		</div>
 		<div class="ans">Answer:</div>
 		<textarea id="${i}" onkeydown="return stopTab(event);"></textarea>
@@ -406,13 +423,20 @@ function sendExamBack(){
 	let student = Object.keys(exam)[0];
 	console.log(student);
 
+
+	NewExam[student]['comments'] += "<br><br>Professor Comments:<br><br>";
 	for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
-		NewExam[student]['answers']+=document.getElementById(i).value+"\n\n";
+		NewExam[student]['comments']+= `Question ${i} <br>`+document.getElementById(i).value+"<br><br>";
+		console.log(`Adding: ${document.getElementById(i).value}`);
+		NewExam[student]["score"] -= -document.getElementById(i).parentNode.getElementsByClassName("delta")[0].getElementsByTagName("input")[0].value;
 	}
 
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+			console.log(NewExam)
 			console.log("submitted.")
+			exam ={};
+			LoadStudentExam();
 		}
 	}
 
@@ -428,9 +452,11 @@ function sendExamBack(){
 //assembleExam, but for the professor to view and edit.
 //Presumably, theObject is already the single student exam
 function assembleExamComments(){
-
+		
 		let student = Object.keys(exam)[0];
-		console.log(student);
+		console.log(exam);
+		
+		document.getElementById('exam').innerHTML = "";
 
 		for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
 			let key = Object.keys(exam[student]['questions'])[i];
@@ -445,9 +471,10 @@ function assembleExamComments(){
 				${curr['description']}
 			</div>
 			<div class="ans">Answer Given:</div>
-
-			<div class="studentAns"></div>
-			<div class="ans" style="width:200px;">
+			<div class="studentAns">
+					${exam[student]['answers'][i]}
+			</div>
+			<div class="ans delta" style="width:200px;">
 				<div style="float:left; margin-top:15px; margin-bottom:3px;">Points Delta:</div>
 				<input class="" style="height: 17px;"></input>
 			</div>
@@ -597,17 +624,17 @@ function GetResults(){
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			if(this.response==" student"){
-
+				console.log("is student");
 				let student = this.response;
 				let xhttp1 = new XMLHttpRequest();
 
 				xhttp1.onreadystatechange = function() {
-					exam=JSON.parse(this.response);
+					console.log(this.response);
+					//exam=JSON.parse(this.response);
 					assembleAnswersStudentReview();
 				}
 				xhttp1.open("POST", scott, true);
 				xhttp1.setRequestHeader("Request-Type", "review_grade");
-				xhttp1.setRequestHeader("Access-Control-Allow-Origin","*");
 				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				console.log(xhttp1);
 				xhttp1.send(JSON.stringify({"username":student}));

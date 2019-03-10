@@ -274,7 +274,7 @@ input,button{
 
 .questionPreviewDifficulty{
   font-size: 17px;
-  padding-left: 5px;
+  padding-left: 0px;
   margin-right: 1px;
   width: 20%;
   float:left;
@@ -292,7 +292,11 @@ input,button{
 }
 
 .smallHeading{
-  font-size:17px;
+  font-size:16px;
+}
+
+.smallerHeading{
+	font-size:14px;
 }
 
 .flexContainer{
