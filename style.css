@@ -393,7 +393,16 @@ input,button{
 
 }
 
+.center{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 
+.sad{
+  width:200px;
+  height:200px;
+}
 
 /*
 input{

@@ -225,7 +225,9 @@ function createJSONQuestionQuery(){
 			console.log(this.response);
 			theObject = JSON.parse(this.response);
 			CreateListForTeacher(); //Redraw the list based on new Query
-		}
+		}else if (this.readyState == 4){
+      failToFind();
+    }
 
   	};
 
@@ -303,6 +305,11 @@ function buildTextUnit(topic, name, desc, difficulty){
 }
 
 function CreateListForTeacher(){
+
+  if (theObject={}){
+    failToFind();
+  }
+
 	var scroll = document.getElementById("heap");
 	scroll.innerHTML = ""; //Erase the current.
 	console.log('list for teachers');
@@ -658,6 +665,16 @@ function stopTab( e ) {
 
 		return false;
     }
+}
+
+function failToFind(){
+            document.getElementById("heap").innerHTML=`<div style="margin-top:50px" class="center"> 
+                <img class="sad"  src="./sad.png"> 
+              </div> 
+              <div class="center"> 
+                <div style="color:#444;margin-top:5px;text-align:center; width:100%">Sorry, we couldn't find any questions to match your query!</div> 
+              </div> 
+            </div>`
 }
 
 /*
