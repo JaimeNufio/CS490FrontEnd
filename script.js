@@ -373,7 +373,7 @@ function findVal(arg){
 		console.log("dd");
 		return `${functionWorth[found]}`;
 	}else{
-		return "t50";
+		return "";
 	}
 }
 
@@ -531,7 +531,7 @@ function sendExamBack(){
 	
 	NewExam[student]['comments'] += "<br><br>Professor Comments:<br><br>";
 	for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
-		NewExam[student]['comments']+= `Question ${i}: <br>`+document.getElementById(i).value+"<br><br>";
+		NewExam[student]['comments']+= `Question ${i+1}: <br>`+document.getElementById(i).value+"<br><br>";
 		console.log(`Adding: ${document.getElementById(i).value}`);
 		NewExam[student]["score"] -= -document.getElementById(i).parentNode.getElementsByClassName("delta")[0].getElementsByTagName("input")[0].value;
 	}
@@ -557,7 +557,6 @@ function sendExamBack(){
 //assembleExam, but for the professor to view and edit.
 //Presumably, theObject is already the single student exam
 function assembleExamComments(){
-		
 		let student = Object.keys(exam)[0];
 		console.log(exam);
 		
@@ -578,7 +577,7 @@ function assembleExamComments(){
 				<h2 class="questionTitle">Question ${i+1}:</h2>
 			</div>
 			<div class="questionText">
-				${curr['description']}
+				Objective: ${curr['description']}
 			</div>
 			<div class="ans">Answer Given:</div>
 			<div class="studentAns">
@@ -639,6 +638,7 @@ function SubmitFinishedExam(){
   xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
 		if (this.response == " student"){
+			console.log("exam qs:");
 			console.log(exam['questions']);	
 			//TODO JSON not working, answers not displayed, not being built
 			var complete = {};
@@ -649,16 +649,18 @@ function SubmitFinishedExam(){
 			complete[args['username']]['score'] = 0;
 			complete[args['username']]['comments'] = "";
 
-			for (let i = 0; i< exam['questions'].length; i++){
+			for (let i = 0; i< Object.keys(exam['questions']).length; i++){
+				console.log('answer '+i);
 				console.log(document.getElementById(i).value);
 				complete[args['username']]['answers'].push(document.getElementById(i).value);
 			}
 		}
-
+			console.log("follows is whats being sent");
 			console.log(complete);
 			let xhttp1 = new XMLHttpRequest();
 			xhttp1.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
+					console.log("hmm");
 					console.log(this.response)
 				}
 			}
@@ -667,7 +669,7 @@ function SubmitFinishedExam(){
 			xhttp1.open("POST", scott, true);
 			xhttp1.setRequestHeader("Request-Type", "submit");
 			xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhttp1.send(JSON.stringify(exam));
+			xhttp1.send(JSON.stringify(complete));
 			console.log(xhttp1);
 		}
 	};
@@ -705,7 +707,6 @@ function LoadStudentExamTake(){
 }
 
 function assembleAnswersStudentReview(){
-	console.log("AHHH");
 	console.log(exam);
 	let student = Object.keys(exam)[0];
 	for (let i = 0; i<Object.keys(exam[student]['questions']).length;i++){
@@ -716,19 +717,20 @@ function assembleAnswersStudentReview(){
 			<h2 class="questionTitle">Question ${i+1}:</h2>
 		</div>
 		<div class="questionText">
-		${curr['description']}
+			Objective: ${curr['description']}
 		</div>
-		<div style="float:left; margin-left: 20px;">${exam[student]['points'][i]}</div>
+		<div style="float:left; margin-left: 20px;">Score: ${exam[student]['points'][i]} points</div>
 		<div class="ans">Answer Given:</div>
 		<div class="answerDisplay" id="" onkeydown="return stopTab(event);">
-		${exam[student]['answers'][i]}
-		</div>`
+			${exam[student]['answers'][i]}
+		</div>
+		<hr>
+		`
 	}
 	document.getElementById("comments").innerHTML=`<h1>FINAL SCORE: ${exam[student]['score']}/100</h1>
 	<br>
 	<p>${exam[student]['comments']}</p>`
 	document.getElementById("comments").style.backgroundColor="#FFF";
-
 }
 
 function GetResults(){
@@ -773,7 +775,7 @@ function stopTab( e ) {
     var evt = e || window.event
     if ( evt.keyCode === 9 ) {
 		e.preventDefault();
-		event.target.value+=("\u00a0\u00a0\u00a0\u00a0");
+		event.target.value+="    ";//("\u00a0\u00a0\u00a0\u00a0");
 
 		return false;
     }
