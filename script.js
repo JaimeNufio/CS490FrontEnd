@@ -22,6 +22,7 @@ var theObject={};
 
 
 var functionList = [];
+var functionListName = [];
 var functionWorth = [];
 function login(){
 
@@ -50,24 +51,23 @@ function login(){
 				result.innerHTML+="Login valid, Redirecting.\n";
 				
 				//Check if Released
-				let xhttp1 = new XMLHttpRequest();
-  			xhttp1.onreadystatechange = function() {
+				let xhttpa = new XMLHttpRequest();
+  			xhttpa.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-							console.log(this.repsonse);
-						if (this.response == ""){
-					//		window.location.href = "./studentReview.html";
+						if (this.response == " true"){ 
+							window.location.href = "./studentReview.html";
 						}else{
 							window.location.href = "./studentTake.html";
 						}
 					}
 				}
 
-				xhttp1.open("POST", scott, true);
-				xhttp1.setRequestHeader("Request-Type", "is_released");
-				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				xhttp1.setRequestHeader("Access-Control-Allow-Origin","*");
-				xhttp1.send(JSON.stringify(args));
-				console.log(xhttp1);
+				xhttpa.open("POST", scott, true);
+				xhttpa.setRequestHeader("Request-Type", "is_released");
+				xhttpa.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhttpa.setRequestHeader("Access-Control-Allow-Origin","*");
+				xhttpa.send();
+				console.log(xhttpa);
 			
 			}
 		}else{
@@ -110,6 +110,8 @@ function handleClick(event) {
 
 function ButtonStateHandler(button) {
 	let val = (button.parentElement.getElementsByClassName('select')[0].value);
+	console.log("current theObject");
+	console.log(theObject);
 
 	if (button.classList.contains("up")){
 		let temp =total-(-val);
@@ -117,20 +119,43 @@ function ButtonStateHandler(button) {
 
 			let buttonId = button.parentElement.parentElement.parentElement.parentElement.id;
 
+/*
+			let key = Object.keys(theObject['questions'])[buttonId];
+			console.log("keys:");
+			console.log(Object.keys(theObject['questions']));
+			console.log("key:");
+			console.log(key);
+			let obj = theObject[key];
+			let questionName= Object.keys(theObject['questions'])[buttonId]
+*/
+
+			let keys = Object.keys(theObject['questions']);
+			console.log("keys:");
+			console.log(keys);
+			console.log("id:");
+			console.log(buttonId);
+			console.log("key:");
+			console.log(keys[buttonId]);
+			key=keys[buttonId];
+			console.log("Obj:");
+			let obj = theObject['questions'][key];
+			console.log(obj);
+			let questionName= Object.keys(theObject['questions'])[buttonId]
+	
+
+			console.log("QuestionName:");
+			console.log(questionName);
+			console.log("adding following to functionList");
+			console.log(theObject['questions'][questionName]);
+			functionList.push(theObject['questions'][questionName]);
+			functionListName.push(questionName);
+
 			total-=-val;
-			button.parentElement.getElementsByClassName('select')[0].readOnly = true;
 			button.classList.add("down");
 			button.classList.remove("up");
+			button.parentElement.getElementsByClassName('select')[0].readOnly = true;
 			button.innerHTML = "Remove";
-
 			functionWorth.push((val));
-			let key = Object.keys(theObject)[buttonId];
-			let obj = theObject[key];
-			console.log("adding following to functionList");
-			console.log(Object.keys(theObject)[buttonId]);
-			//console.log(button.parentElement.parentElement.parentElement.parentElement.id);
-			functionList.push(Object.keys(theObject['questions'])[buttonId]);
-
 		}else{
 			console.log("NaN");
 		}
@@ -142,20 +167,41 @@ function ButtonStateHandler(button) {
 		total-=-(-val);
 		button.parentElement.getElementsByClassName('select')[0].readOnly = false;
 		button.innerHTML = "Append";
+/*		
+		let key = Object.keys(theObject)[buttonId];
+		let obj = theObject[key];
+		let questionName= Object.keys(theObject['questions'])[buttonId]
+*/
+
+			let keys = Object.keys(theObject['questions']);
+			console.log("keys:");
+			console.log(keys);
+			console.log("id:");
+			console.log(buttonId);
+			console.log("key:");
+			console.log(keys[buttonId]);
+			key=keys[buttonId];
+			console.log("Obj:");
+			let obj = theObject['questions'][key];
+			console.log(obj);
+			let questionName= Object.keys(theObject['questions'])[buttonId]
 
 		console.log("from folloing to functionList");
-		console.log(Object.keys(theObject['questions'])[buttonId]);
+		console.log(theObject['questions'][questionName]);
 
 		for (var i =0; i < functionList.length;i++){
-			if (functionList[i]===Object.keys(theObject)[buttonId]){
+			if (functionListName[i]===questionName){
+				console.log("should remove");
 				functionList.splice(i,1);
 				functionWorth.splice(i,1);
+				functionListName.splice(i,1);
 			}
 		}
 	}
 	document.getElementById("total").innerHTML=`${total}/100`;
 	console.log("funciton list follows");
 	console.log(functionList);
+	console.log(functionListName);
 	console.log(functionWorth);
 }
 
@@ -222,9 +268,13 @@ function createJSONQuestionQuery(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(this.response);
-			theObject = JSON.parse(this.response);
-			CreateListForTeacher(); //Redraw the list based on new Query
+			if (this.response == " no results"){
+				failToFind();
+			}else{
+				console.log(this.response);
+				theObject = JSON.parse(this.response);
+				CreateListForTeacher(); //Redraw the list based on new Query
+			}
 		}else if (this.readyState == 4){
       failToFind();
     }
@@ -243,8 +293,7 @@ function releaseScores(){
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			theObject = JSON.parse(this.response);
-		//	CreateListForTeacher(); //Redraw the list based on new Query
+			console.log(this.response);
 		}
   };
 
@@ -273,40 +322,87 @@ function createAbsoluteNumQuery(){
 	console.log(xhttp);
 }
 
-function buildTextUnit(topic, name, desc, difficulty){
-	let topicList = "";
+function buildTextUnit(topic, name, desc, difficulty, args, ith){
+	let topicList = "", argsList="";
 	for (let i = 0; i <topic.length;i++){
 		topicList+=topic[i];
 		if (i < topic.length-1){
 			topicList+=", ";
 		}
 	}
+	for (let i = 0; i <args.length;i++){
+		if (args[i]!=false){
+		argsList+="\""+args[i]+"\"";
+		if (i < args.length-1){
+			argsList+=", and ";
+		}
+		}
+	}
 
-	return `<div class="questionPreview" id = ${qNum}>
+	return `<div class="questionPreview" id = ${ith}>
 	<div class="questionPreviewTitle">Function Name: ${name} </div>
 	<hr>
 	<div class="questionPreviewText">
 		<span class="smallHeading">Question:</span>
 	 	<br>
-		<div>
-			${desc}
+		<div style="width: 95%; margin-top:4px; margin-left:2px">
+			Create a function called \"${name}\" that takes argument ${argsList} that can do the following:  ${desc}
 		</div>
 		<span class="smallerHeading"><br>Topics: ${topicList}<br></span>
 	<hr>
 	<div class="questionPreviewHandler">
 	  <div style="margin-top:8px;" class="questionPreviewContainer">
 		<div style="margin-top:8px; margin-right:5px; margin-left:0px" class="questionPreviewDifficulty">Difficulty: ${difficulty}</div>
-		<div style="float:left;margin-top:8px; margin-right:5px">Points Value:</div>
-		<input class="select pts" style="height:15px;float:left;width:10%;margin-top:5px"></input>
-		<button style="float:right; margin-right:20px; width:20%;" class="up questionPreviewButton">Append</button>
+		<div style="float:left;margin-top:8px; margin-right:5px" >Points Value:</div>
+		<input class="select pts" style="height:15px;float:left;width:10%;margin-top:5px" value="${findVal(name)}"></input>
+		<button style="float:right; margin-right:20px; width:20%;" class="questionPreviewButton ${check(name)} ">${aprem(check(name))}</button>
 	  </div>
 	</div>
   </div>`;
 }
 
+function findVal(arg){
+	let found = -1;
+	for (let i = 0; i<functionListName.length;i++){
+		if (arg == functionListName[i]){
+			console.log("matched");
+			found = i;
+		}
+	}
+	if (found>-1){
+		console.log("dd");
+		return `${functionWorth[found]}`;
+	}else{
+		return "t50";
+	}
+}
+
+function aprem(arg){
+	if (arg == "down"){
+		return "Remove";
+	}else{
+		return "Append";
+	}
+}
+
+function check(arg){
+	let found = 0;
+	for (let i = 0; i<functionListName.length;i++){
+		if (arg == functionListName[i]){
+			found = 1;
+		}
+	}
+	if (found==1){
+		return "down";
+	}else{
+		return "up";
+	}
+}
+
+
 function CreateListForTeacher(){
 
-  if (theObject={}){
+  if (theObject=={}){
     failToFind();
   }
 
@@ -321,7 +417,9 @@ function CreateListForTeacher(){
 		theObject['questions'][key]['topics'],
 		key,
 		theObject['questions'][key]['description'],
-		theObject['questions'][key]['difficulty']);
+		theObject['questions'][key]['difficulty'],
+		theObject['questions'][key]['arg_names'],
+		i);
 		scroll.innerHTML+=piece;
 		qNum++;
 	}
@@ -345,10 +443,10 @@ function createExam(){
 	for (let i = 0;i<functionList.length;i++){
 		console.log(i);
 		console.log(functionList[i]);
-		//console.log(theObject[functionList[i]]);
+		console.log(theObject[functionList[i]]);
 
 		let key = functionList[i];
-		examOut['questions'][key] = theObject[functionList[i]];
+		examOut['questions'][functionListName[i]] = functionList[i];
 	}
 
 	examOut['points'] = functionWorth;
@@ -363,7 +461,7 @@ function submitExam(){
 		return;
 	}else{
 
-	let query = createExam();
+	let out = createExam();
 	console.log(functionList);
 	let xhttp = new XMLHttpRequest();
 
@@ -380,8 +478,8 @@ function submitExam(){
 	xhttp.setRequestHeader("Request-Type", "new_exam");
 	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	console.log(query);
-	xhttp.send(JSON.stringify(query));
+	console.log(out);
+	xhttp.send(JSON.stringify(out));
 	console.log(xhttp);
 	}
 }
@@ -430,10 +528,10 @@ function sendExamBack(){
 	let student = Object.keys(exam)[0];
 	console.log(student);
 
-
+	
 	NewExam[student]['comments'] += "<br><br>Professor Comments:<br><br>";
 	for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
-		NewExam[student]['comments']+= `Question ${i} <br>`+document.getElementById(i).value+"<br><br>";
+		NewExam[student]['comments']+= `Question ${i}: <br>`+document.getElementById(i).value+"<br><br>";
 		console.log(`Adding: ${document.getElementById(i).value}`);
 		NewExam[student]["score"] -= -document.getElementById(i).parentNode.getElementsByClassName("delta")[0].getElementsByTagName("input")[0].value;
 	}
@@ -463,7 +561,12 @@ function assembleExamComments(){
 		let student = Object.keys(exam)[0];
 		console.log(exam);
 		
-		document.getElementById('exam').innerHTML = "";
+		document.getElementById('exam').innerHTML = `
+			<div>
+				<h2 class="questionTitle">${student}'s final Score: ${exam[student]['score']}</h2>
+			</div>
+			<hr>
+		`;
 
 		for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
 			let key = Object.keys(exam[student]['questions'])[i];
@@ -503,6 +606,9 @@ function LoadStudentExam(){
 	console.log(`Trying for ${document.getElementById("selectName").value}`)
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+	
+	
+			console.log(this.response);
 			exam=JSON.parse(this.response);
 			assembleExamComments();
 		}
@@ -538,20 +644,22 @@ function SubmitFinishedExam(){
 			var complete = {};
 			complete[args['username']] = {};
 			complete[args['username']]['questions'] = exam['questions'];
-			complete['points'] = exam['points'];
-			complete['answers'] = [];
-			complete['score'] = 0;
-			complete['comments'] = "";
+			complete[args['username']]['points'] = exam['points'];
+			complete[args['username']]['answers'] = [];
+			complete[args['username']]['score'] = 0;
+			complete[args['username']]['comments'] = "";
 
-				for (let i = 0; i< exam['points'].length; i++){
-					complete['answers'][i] = document.getElementById(i).value;
-				}
+			for (let i = 0; i< exam['questions'].length; i++){
+				console.log(document.getElementById(i).value);
+				complete[args['username']]['answers'].push(document.getElementById(i).value);
 			}
+		}
 
+			console.log(complete);
 			let xhttp1 = new XMLHttpRequest();
 			xhttp1.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("Done?")
+					console.log(this.response)
 				}
 			}
 
@@ -597,11 +705,12 @@ function LoadStudentExamTake(){
 }
 
 function assembleAnswersStudentReview(){
-
+	console.log("AHHH");
+	console.log(exam);
 	let student = Object.keys(exam)[0];
 	for (let i = 0; i<Object.keys(exam[student]['questions']).length;i++){
 		let key = Object.keys(exam[student]['questions'])[i];
-		let curr = exam['questions'][key];
+		let curr = exam[student]['questions'][key];
 		document.getElementById("heap").innerHTML+=`<div style="background: #FFF;text-align: left" class="questionWritten">
 		<div>
 			<h2 class="questionTitle">Question ${i+1}:</h2>
@@ -609,15 +718,16 @@ function assembleAnswersStudentReview(){
 		<div class="questionText">
 		${curr['description']}
 		</div>
-		<div style="float:left; margin-left: 20px;">${exam['points'][i]}</div>
-		<div class="ans">Answer:</div>
+		<div style="float:left; margin-left: 20px;">${exam[student]['points'][i]}</div>
+		<div class="ans">Answer Given:</div>
 		<div class="answerDisplay" id="" onkeydown="return stopTab(event);">
-		${exam['answers'][i]}
+		${exam[student]['answers'][i]}
 		</div>`
 	}
-	document.getElementById("comments").innerHTML=`<h1>FINAL SCORE: ${exam[student][score]}/100</h1>
+	document.getElementById("comments").innerHTML=`<h1>FINAL SCORE: ${exam[student]['score']}/100</h1>
 	<br>
-	<p>${exam[student][comments]}</p>`
+	<p>${exam[student]['comments']}</p>`
+	document.getElementById("comments").style.backgroundColor="#FFF";
 
 }
 
@@ -632,13 +742,15 @@ function GetResults(){
 		if (this.readyState == 4 && this.status == 200) {
 			if(this.response==" student"){
 				console.log("is student");
-				let student = this.response;
+				let student = args['username'];
 				let xhttp1 = new XMLHttpRequest();
 
 				xhttp1.onreadystatechange = function() {
-					console.log(this.response);
-					//exam=JSON.parse(this.response);
-					assembleAnswersStudentReview();
+					if(this.readyState==4 &&this.status==200){
+						console.log(this.response);
+						exam = JSON.parse(this.response);
+						assembleAnswersStudentReview();
+					}
 				}
 				xhttp1.open("POST", scott, true);
 				xhttp1.setRequestHeader("Request-Type", "review_grade");

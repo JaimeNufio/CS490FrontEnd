@@ -363,6 +363,7 @@ input,button{
   border-width: 1px;
   background: #FFF;
   border-color: #999;
+	width:900px;
 }
 
 .questionWritten > textarea{
