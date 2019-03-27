@@ -719,7 +719,7 @@ function assembleAnswersStudentReview(){
 		<div class="questionText">
 			Objective: ${curr['description']}
 		</div>
-		<div style="float:left; margin-left: 20px;">Score: ${exam[student]['points'][i]} points</div>
+		<div style="float:left; margin-left: 20px;">Score: ${exam[student]['points'][i]} points:</div>
 		<div class="ans">Answer Given:</div>
 		<div class="answerDisplay" id="" onkeydown="return stopTab(event);">
 			${exam[student]['answers'][i]}
