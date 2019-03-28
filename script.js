@@ -42,19 +42,19 @@ function login(){
 
 	if (this.readyState == 4 && this.status == 200) {
 		let r = ""+this.response;
-		if (r == " instructor" || r == " student"){
+		if (r == "instructor" || r == "student"){
 			result.style.color="#31c55a";
-			if (r == " instructor"){
+			if (r == "instructor"){
 				result.innerHTML+="Login valid, Redirecting.\n";
 				window.location.href = "./teacherSearch.html";
 			}else{
 				result.innerHTML+="Login valid, Redirecting.\n";
-				
+
 				//Check if Released
 				let xhttpa = new XMLHttpRequest();
   			xhttpa.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (this.response == " true"){ 
+						if (this.response == " true"){
 							window.location.href = "./studentReview.html";
 						}else{
 							window.location.href = "./studentTake.html";
@@ -68,7 +68,7 @@ function login(){
 				xhttpa.setRequestHeader("Access-Control-Allow-Origin","*");
 				xhttpa.send();
 				console.log(xhttpa);
-			
+
 			}
 		}else{
 			result.style.color="#e40042";
@@ -141,13 +141,13 @@ function ButtonStateHandler(button) {
 			let obj = theObject['questions'][key];
 			console.log(obj);
 			let questionName= Object.keys(theObject['questions'])[buttonId]
-	
+
 
 			console.log("QuestionName:");
 			console.log(questionName);
-			console.log("adding following to functionList");
-			console.log(theObject['questions'][questionName]);
-			functionList.push(theObject['questions'][questionName]);
+		//	console.log("adding following to functionList");
+		//	console.log(theObject['questions'][questionName]);
+		//	functionList.push(theObject['questions'][questionName]);
 			functionListName.push(questionName);
 
 			total-=-val;
@@ -167,7 +167,7 @@ function ButtonStateHandler(button) {
 		total-=-(-val);
 		button.parentElement.getElementsByClassName('select')[0].readOnly = false;
 		button.innerHTML = "Append";
-/*		
+/*
 		let key = Object.keys(theObject)[buttonId];
 		let obj = theObject[key];
 		let questionName= Object.keys(theObject['questions'])[buttonId]
@@ -268,9 +268,10 @@ function createJSONQuestionQuery(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
-			if (this.response == " no results"){
+			if (this.response == "no results"){
 				failToFind();
 			}else{
+				console.log("Not empty");
 				console.log(this.response);
 				theObject = JSON.parse(this.response);
 				CreateListForTeacher(); //Redraw the list based on new Query
@@ -439,23 +440,23 @@ function arrayToWords(l){
 
 function createExam(){
 	var examOut = {"questions":{}};
-	
+
 	for (let i = 0;i<functionList.length;i++){
-		console.log(i);
-		console.log(functionList[i]);
-		console.log(theObject[functionList[i]]);
+	//	console.log(i);
+	//	console.log(functionList[i]);
+	//	console.log(theObject[functionList[i]]);
 
 		let key = functionList[i];
-		examOut['questions'][functionListName[i]] = functionList[i];
+		examOut['questions'][functionListName[i]] = examOut['points'];
 	}
 
-	examOut['points'] = functionWorth;
+	//examOut['points'] = functionWorth;
 	console.log(examOut);
 
 	return examOut;
 }
 
-//Submit exam as completely built to the DB
+//SUBMIT BUILT EXAM (TEACHERSEARCH UPLOAD)
 function submitExam(){
 	if (total != 100){
 		return;
@@ -528,7 +529,7 @@ function sendExamBack(){
 	let student = Object.keys(exam)[0];
 	console.log(student);
 
-	
+
 	NewExam[student]['comments'] += "<br><br>Professor Comments:<br><br>";
 	for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
 		NewExam[student]['comments']+= `Question ${i+1}: <br>`+document.getElementById(i).value+"<br><br>";
@@ -559,7 +560,7 @@ function sendExamBack(){
 function assembleExamComments(){
 		let student = Object.keys(exam)[0];
 		console.log(exam);
-		
+
 		document.getElementById('exam').innerHTML = `
 			<div>
 				<h2 class="questionTitle">${student}'s final Score: ${exam[student]['score']}</h2>
@@ -605,8 +606,8 @@ function LoadStudentExam(){
 	console.log(`Trying for ${document.getElementById("selectName").value}`)
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-	
-	
+
+
 			console.log(this.response);
 			exam=JSON.parse(this.response);
 			assembleExamComments();
@@ -624,7 +625,7 @@ function LoadStudentExam(){
 
 //student finished the exam
 function SubmitFinishedExam(){
-	
+
 	let args = {
 		'username':""+document.getElementById("user").value,
 		'password':""+document.getElementById("pass").value
@@ -637,9 +638,9 @@ function SubmitFinishedExam(){
 
   xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
-		if (this.response == " student"){
+		if (this.response == "student"){
 			console.log("exam qs:");
-			console.log(exam['questions']);	
+			console.log(exam['questions']);
 			//TODO JSON not working, answers not displayed, not being built
 			var complete = {};
 			complete[args['username']] = {};
@@ -684,7 +685,7 @@ function SubmitFinishedExam(){
 
 //For Taking
 function LoadStudentExamTake(){
-	
+
 	if (document.URL.includes("studentTake")){
 		let xhttp = new XMLHttpRequest();
 		//console.log(`Trying for ${document.getElementById("selectName").value}`)
@@ -782,12 +783,12 @@ function stopTab( e ) {
 }
 
 function failToFind(){
-            document.getElementById("heap").innerHTML=`<div style="margin-top:50px" class="center"> 
-                <img class="sad"  src="./sad.png"> 
-              </div> 
-              <div class="center"> 
-                <div style="color:#444;margin-top:5px;text-align:center; width:100%">Sorry, we couldn't find any questions to match your query!</div> 
-              </div> 
+            document.getElementById("heap").innerHTML=`<div style="margin-top:50px" class="center">
+                <img class="sad"  src="./sad.png">
+              </div>
+              <div class="center">
+                <div style="color:#444;margin-top:5px;text-align:center; width:100%">Sorry, we couldn't find any questions to match your query!</div>
+              </div>
             </div>`
 }
 

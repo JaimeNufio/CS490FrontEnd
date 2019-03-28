@@ -10,11 +10,11 @@
         <div id="leftpannel"> <!-- This is the start of the Input  -->
          <!-- <div class="title">
             <div class="set">Topic Here</div>
-            <div class="set">Difficulty</div>
-            <div class="set">Keyword</div>
           </div>
           <hr>-->
-          <div class="pannel">
+
+          <!--Adding Question TODO: Fix input opts, primarily the 'cases' expander-->
+          <div class="pannel" style="display:none">
             <div class="title">
               <h1 class="left">Adding Question: </h1>
               <hr>
@@ -96,12 +96,8 @@
                   </div>
                   <input id="out1" type="text" class="leftdiv select">
                   </input>
-                </div>
-                <br>
-                <div class="option">
-                  <div class="selectheading">
-                    Input Case 2:
-                  </div>
+                </di
+              </div>
                   <input id="in2" type="text" class="leftdiv select">
                   </input>
                 </div>
@@ -125,6 +121,17 @@
             </div>
 
           </div>
+
+          <div class="pannel" style="display:block">
+            <div class="title">
+              <h1 class="left">Exam Preview: </h1>
+              <hr>
+            </div>
+            <div id="examBuilder"class="preview scroll">
+
+            </div>
+        </div>
+
 
         </div>
         <div id="rightpannel">
@@ -197,7 +204,7 @@
             <div class="box">
               <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
             </div>
-            <div class="box"><button onclick="submitExam()">Submit Test</button></div>
+            <div class="box"><button onclick="submitBuiltExam()">Submit Test</button></div>
           </div>
           <br>
           <div style="margin:0 50px 0 50px">

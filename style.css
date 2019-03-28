@@ -405,6 +405,11 @@ input,button{
   height:200px;
 }
 
+.preview{
+  height:650px;
+  width:100%;
+}
+
 /*
 input{
   display: block;
