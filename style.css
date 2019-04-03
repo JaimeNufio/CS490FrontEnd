@@ -24,20 +24,21 @@ textarea{
   margin-top:35px;
   height:40px;
   background-color: crimson;
-  border: none;
+  border: solid;
+/*	border-color: gold;*/
   color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
-  border-radius:9px;
+  border-radius:5px;
 }
 
 #main{
   margin: 50px auto;
   width: 90%;
-  height: 750px;/*44vw;*/
+  height: 800px;/*44vw;*/
   background: white;
   border-radius:9px;
   display:block;
@@ -55,6 +56,23 @@ textarea{
   width:50%;
   float:left;
 }
+
+.rightdiv{
+  width:50%;
+  float: right;
+}
+
+.leftdivsmall{
+  width:50%;
+  float:left;
+}
+
+.rightdivsmall{
+  width:40%;
+  float:right;
+	margin-right:20px;
+}
+
 
 #rightpannel, .rightpannel{
   width:50%;
@@ -190,9 +208,10 @@ input,button{
 	font-size:15px;
 }
 
-.rightdiv{
-  width:50%;
-  float: right;
+.ButtonContainer{
+	width:50%;
+	float:right;
+
 }
 
 .confirm{
@@ -210,6 +229,17 @@ input,button{
   outline: solid;
   outline-width: thin;
   outline-color: #555;
+}
+
+.scrollSmall{
+  height:220px;
+  background-color: #FFF;
+  overflow-y: scroll;
+  overflow-x:hidden;
+  padding: none;
+  outline: solid;
+  outline: none;
+	margin-bottom:10px;
 }
 
 .scroll.review{
@@ -266,10 +296,6 @@ input,button{
   padding-top: 5px;
   font-size: 14px;
   width: 100%;
-}
-
-.questionPreviewButton{
-
 }
 
 .questionPreviewDifficulty{
@@ -351,9 +377,16 @@ input,button{
 }
 
 .ans{
-  margin-top:30px;
+  margin-top:20px;
   font-size: 20px;
   margin-left: 20px;
+}
+
+.ans> .comment{
+  margin-top:10px;
+  font-size: 14px;
+  height:18px;
+  width:100%;
 }
 
 .studentAns{
@@ -363,14 +396,14 @@ input,button{
   border-width: 1px;
   background: #FFF;
   border-color: #999;
-	width:900px;
+  width:900px;
 }
 
 .questionWritten > textarea{
   margin-top:10px;
   margin-left:20px;
   margin-bottom:20px;
-  width:50%;
+  width:900px;
   padding: auto;
   height:200px;
 
@@ -406,14 +439,30 @@ input,button{
 }
 
 .preview{
-  height:650px;
+  height:620px;
   width:100%;
 }
 
-/*
-input{
-  display: block;
-  margin: 0 auto;
-  margin-top: 10px;
+.subTittle{
+	text-align:left;
 }
-*/
+
+.case{
+	width:100% !important;
+	height:10px !important;
+	margin-bottom:50px;
+}
+
+#testcases{
+	height:220px;
+}
+
+.feedback{
+	text-align:center;
+	display:inline;
+	float:right;
+	margin-right:15px;
+	/*color:#31c55a;*/
+	color:#e40042;
+}
+
