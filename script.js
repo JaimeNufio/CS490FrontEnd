@@ -556,7 +556,7 @@ function buildTextUnitDisplay(topic, name, desc, difficulty, ith){
 	}
 */
 	console.log("ITH: "+ith);
-	return `<div class="questionPreview" style="background-color:#FFF">
+	return `<div class="questionPreview" style="">
 	<div class="questionPreviewTitle">Question ${ith+1}: </div>
 	<hr>
 	<div class="questionPreviewText" style="">
@@ -1073,7 +1073,7 @@ function failToFind(){
                 <img class="sad"  src="./sad.png">
               </div>
               <div class="center">
-                <div style="color:#444;margin-top:5px;text-align:center; width:100%">Sorry, we couldn't find any questions to match your query!</div>
+                <div style="" class="sadText">Sorry, we couldn't find any questions to match your query!</div>
               </div>
             </div>`
 }
@@ -1086,7 +1086,7 @@ function failToFindStudentExam(){
   	<img class="sad"  src="./teacher.png">
   </div>
   <div class="center">
-  	<div style="color:#444;margin-top:5px;text-align:center; width:100%">Select a Student's Exam to review it.</div>
+  	<div style="" class="teacherText">Select a Student's Exam to review it.</div>
   	</div>
   </div>`
 	}else{
@@ -1095,7 +1095,7 @@ function failToFindStudentExam(){
   	<img class="sad"  src="./sad.png">
   </div>
   <div class="center">
-  	<div style="color:#444;margin-top:5px;text-align:center; width:100%">${document.getElementById('selectName').value} has not submitted the exam at this time.</div>
+  	<div style="" class="sadText">${document.getElementById('selectName').value} has not submitted the exam at this time.</div>
   	</div>
   </div>`
 	}

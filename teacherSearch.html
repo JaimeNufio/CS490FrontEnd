@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>CS 490 Project</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
   </head>
   <body>
     <div id="main" style="">
@@ -117,7 +118,7 @@
 
 								</div>
 
-								<div id="AddMore"style="">
+								<div id="AddMore" style="width:50%; float:right">
 									<button onclick="deltaHTMLInputs(-1)" style="width:50%; float:left">[-]</button>
 									<button onclick="deltaHTMLInputs(1)" style="width:50%; float:left">[+]</button>
 								</div>
@@ -175,7 +176,7 @@
 
                 <div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
-                  <select onchange="createJSONQuestionQuery()" id="qtopic" class="select" style="float:left">
+                  <select onchange="createJSONQuestionQuery()" id="qtopic" class="select" style="width:150px;height:22px; float:left">
                     <option value="lists">1: Lists</option>
                     <option value="turtles">2: Turtles</option>
                     <option value="if">3: If</option>
@@ -192,11 +193,11 @@
                 </div>
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem" >Keyword: </div>
-                  <input onchange="createJSONQuestionQuery()" id = "qkeywords" class="select" type="text" style="width:54%"></input>
+                  <input onchange="createJSONQuestionQuery()" id = "qkeywords" class="select" type="text" style="width:150px"></input>
                 </div>
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem ">Difficulty: </div>
-                  <select onchange="createJSONQuestionQuery()" id="qdifficulty" class="select" style="float:left">
+                  <select onchange="createJSONQuestionQuery()" id="qdifficulty" class="select" style="width:150px;height:22px;float:left">
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
@@ -248,15 +249,21 @@
 
           <div class="flexContainer">
             <div class="box">
+              <div id="" style="text-align: center;padding:auto;line-height:41px">Exam Point Value:</div>
+            </div>
+            <div class="box">
               <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
             </div>
-            <div class="box"><button onclick="submitBuiltExam()">Submit New Exam</button></div>
+	  </div>
+          <div class="flexContainer">
+            <div class="box" ><button style="width:94%;float:left"onclick="Lock()">Ensure Exam is Out of 100 Pts</button></div>
+            <div class="box" ><button style="width:94%;float:right"onclick="submitBuiltExam()">Submit New Exam</button></div>
           </div>
           <br>
           <div style="margin:0 50px 0 50px">
-            <button style="width:40%;float:left" onclick="goToReview()">Review Student Exams</button>
+            <button style="width:47%;float:left" onclick="goToReview()">Review Student Exams</button>
 
-            <button style="width:40%;float:right" onclick="releaseScores()">Release Exam Scores</button>
+            <button style="width:47%;float:right" onclick="releaseScores()">Release Exam Scores</button>
           </div>
 
         <!-- end of right side-->
