@@ -9,8 +9,8 @@
     <div id="main" >
       <div>
         <h1 class="ExamTitle">Teacher Review</h1>
-        <button id="ExamDone" onclick="releaseScores()">Release All Exams</button>
-        <button id="ExamDone" onclick="sendExamBack()">Submit Comments</button>
+        <button class="btn" id="ExamDone" onclick="releaseScores()">Release All Exams</button>
+        <button class="btn" id="ExamDone" onclick="sendExamBack()">Submit Current Comments</button>
         <div style="width:200px;float:right; ">
             <div style="margin-left:0px ; margin-top:19px; margin-bottom:3px;">Select Student: </div>
             <select id="selectName" style="width:180px" class="select"  onchange="LoadStudentExam()">
@@ -18,11 +18,7 @@
 	    </select>
         </div>
       </div>
-      <div id="exam" style="height:720px"class="workArea scroll">
-
-
-
-
+      <div id="exam" style="height:750px"class="workArea scroll">
       </div>
     </div>
     <script src="script.js"></script>

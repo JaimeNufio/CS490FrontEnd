@@ -14,6 +14,8 @@ var result = document.getElementById("result");
 var result1 = document.getElementById("result1");
 var total = 0; //pts of test
 var qNum = 0;
+var lock = false;
+var DEBUG = false;//true;
 
 //theObject will be assigned to the value of var['questions']
 var exam = {};
@@ -117,8 +119,11 @@ function ButtonStateHandler(button) {
 	UpdateTeacherExamPreview();
 	if (button.classList.contains("up")){
 		let temp =total-(-val);
-		if (!isNaN(val) && val > 0 && temp<=100){
-
+		console.log("Lock State");
+		console.log(lock);
+		console.log("Lock Logic:");
+		console.log((!lock || (lock && temp <=100)));
+		if ((!isNaN(val) && val > 0) && (!lock || (lock && temp <=100))){
 			let buttonId = button.parentElement.parentElement.parentElement.parentElement.parentElement.id;
 			console.log("buttonId");
 			console.log(buttonId);
@@ -161,6 +166,7 @@ function ButtonStateHandler(button) {
 			functionWorth.push((val));
 		}else{
 			console.log("NaN");
+			alert("Erroneous Input. (Require: positive integer greater than 0. If 100 point bound set, total cannot exceed 100.)");
 		}
 	}else{
 		let buttonId = button.parentElement.parentElement.parentElement.parentElement.parentElement.id;
@@ -201,17 +207,40 @@ function ButtonStateHandler(button) {
 			}
 		}
 	}
-	document.getElementById("total").innerHTML=`${total}/100`;
+	if(lock){
+		document.getElementById("total").innerHTML=`Exam Total: ${total}/100`;
+	}else{
+		document.getElementById("total").innerHTML=`Exam Total: ${total}`;
+	}
 	console.log("funciton list follows");
 	console.log(functionList);
 	console.log(functionListName);
 	console.log(functionWorth);
 
 	UpdateTeacherExamPreview();
-	//We'll redraw the entire exam, not efficent but eh.
-	//function buildTextUnit(topic, name, desc, difficulty, args, ith){
-	//
 }
+
+function Lock(){
+	let button = document.getElementById('lock');
+	if (lock){
+		//unlock
+		button.classList.remove("down");
+		button.classList.add("up");
+	}else{
+		//unlock
+		button.classList.remove("up");
+		button.classList.add("down");
+	}
+	
+	lock = !lock;
+	
+	if(lock){
+		document.getElementById("total").innerHTML=`Exam Total: ${total}/100`;
+	}else{
+		document.getElementById("total").innerHTML=`Exam Total: ${total}`;
+	}
+}
+
 
 function UpdateTeacherExamPreview(){
 	document.getElementById("examBuilder").innerHTML="";
@@ -242,12 +271,20 @@ function showAddQuestion(){
 
 function gatherInputs(){
 	let items = [];
-	for (let i =0; i<testcases;i++){
-		if (document.getElementById(`in${i+1}`).value != ""){
-			let ins = (document.getElementById(`in${i+1}`).value).replace(/\s+/g, '').split(",");
-			items.push(ins);
-		}else{
-			i=9;
+	if (document.getElementById(`in${1}`).value==""){
+		//No inputs!!!
+		let size = gatherOutputs().length;
+		for (let i = 0;i<size;i++){
+			items.push([]);
+		}
+	}else{
+		for (let i =0; i<testcases;i++){
+			if (document.getElementById(`in${i+1}`).value != ""){
+				let ins = (document.getElementById(`in${i+1}`).value).replace(/\s+/g, '').split("|");
+				items.push(ins);
+			}else{
+				i=9;
+			}
 		}
 	}
 	console.log("Gather inputs");
@@ -272,7 +309,9 @@ function gatherOutputs(){
 function TestCaseErrors(){
 	let outSet = gatherOutputs();
 	let inSet = gatherInputs();
-	let varSet = document.getElementById("vars").value.split(",");
+	//let varSet = document.getElementById("vars").value.split(",");
+	
+	let varSet = inSet[0];
 
 	console.log("TESTCASEERRORS:");
 	console.log("IN Set");
@@ -281,6 +320,13 @@ function TestCaseErrors(){
 	console.log(outSet);
 	console.log("VAR Set");
 	console.log(varSet);
+
+	try{
+		console.log(varSet.length);
+	}catch(err){
+		console.log("varSet[i] has 0 len");
+			
+	}
 
 	let flag = false;
 	document.getElementById("feedbackA").innerHTML = "";
@@ -291,8 +337,14 @@ function TestCaseErrors(){
 		flag = true;
 	}
 
+	if (outSet.length != inSet.length){
+		document.getElementById("feedbackA").innerHTML += `Require that rows are completed.`;
+		flag = true;
+	}
+
 	for (let i = 0; i<inSet.length;i++){
 		//if the length of any input Set is not equal to variables
+		console.log("COMP: "+inSet[i].length+":"+varSet.length);
 		if (inSet[i].length != varSet.length){
 			console.log("ERROR: Not all InSets match VarSet Length");
 			document.getElementById("feedbackA").innerHTML += `Test case ${i+1} must have as many arguments as there are variables. <br>`;
@@ -302,9 +354,6 @@ function TestCaseErrors(){
 		if ((inSet[i] == "" && outSet[i] != "" ) || (inSet[i] != "" && outSet[i] == "")){
 			document.getElementById("feedbackA").innerHTML += `Test case ${i+1} must have input variables and an expected output. <br>`;
 		}
-
-
-
 	}
 
 	console.log(flag);
@@ -360,15 +409,19 @@ function getTopics(){
 	return list;
 }
 
+function properStrip(){
+
+}
+
 function createJSONQuestionAdd(){
 	document.getElementById("feedbackA").innerHTML = "";
 	document.getElementById("feedbackA").style.color= "#e40042";
 	//console.log(getTopics());
-	if (document.getElementById("fname").value.length == 0 || document.getElementById("vars").length == 0 ||
+	if (document.getElementById("fname").value.length == 0 || //document.getElementById("vars").length == 0 ||
 		document.getElementById("desc").length == 0 || document.getElementById("topics").value.length == 0){ 
 		document.getElementById("feedbackA").innerHTML += "Critical field(s) missing.";
 	}else if (TestCaseErrors()){
-
+		
 	}else{
 
 		document.getElementById("feedbackA").style.color= "#31c55a";
@@ -379,18 +432,17 @@ function createJSONQuestionAdd(){
 			[id] : {
 				"description": document.getElementById("desc").value,
 				"func_name" : document.getElementById("fname").value.replace(/\s+/g, ''),
-				"arg_names" : document.getElementById("vars").value.replace(/\s+/g, '').split(","),
+				//"arg_names" : document.getElementById("vars").value.replace(/\s+/g, '').split(","),
 				//"inputs" : [document.getElementById("in1").value.split(","), document.getElementById("in2").value.split(",")],
 				"inputs" : gatherInputs(), 
 				//"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
 				"constraints" : document.getElementById("constraints").value,
 				"expected_outputs" : gatherOutputs(), 
 				"difficulty" : document.getElementById("difficulty").value,
-				"topics" : [getTopics()]
+				"topics" : getTopics()
 				}
 			}
 		}
-
 		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function() {
@@ -406,6 +458,7 @@ function createJSONQuestionAdd(){
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhttp.setRequestHeader("Request-Type", "new_question");
 		xhttp.send(JSON.stringify(question));
+		console.log("QUESTION");
 		console.log(question);
 		console.log(xhttp);
 
@@ -458,6 +511,7 @@ function releaseScores(){
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			console.log(this.response);
+			alert("Exam release state flipped!");
 		}
   };
 
@@ -495,6 +549,7 @@ function buildTextUnit(topic, name, desc, difficulty,ith){ //args, ith){
 			topicList+=", ";
 		}
 	}
+		console.log(topicList);
 	/*
 	for (let i = 0; i <args.length;i++){
 		if (args[i]!=false){
@@ -663,7 +718,9 @@ function createExam(){
 
 //SUBMIT BUILT EXAM (TEACHERSEARCH UPLOAD)
 function submitBuiltExam(){
-	if (total != 100){
+	if ( (lock && total != 100) ) {
+		console.log("improper");
+		alert("Exam is not out of 100, but you have the safety lock on.");
 		return;
 	}else{
 
@@ -674,6 +731,7 @@ function submitBuiltExam(){
 	xhttp.onreadystatechange = function() {
 
 		if (this.readyState == 4 && this.status == 200) {
+			alert("Sucessfully uploaded the new exam!");
 			console.log(this.response);
 			//No clue why this was here, but let's leave the comment incase we need it.
 			//Although we shouldn't, this is rewriting information for no real reason.
@@ -693,6 +751,7 @@ function submitBuiltExam(){
 }
 
 function upperFirst(str){
+
 	return str.toUpperCase().charAt(0)+str.substring(1);
 }
 
@@ -705,7 +764,7 @@ function assembleExam(){
 		let key = Object.keys(exam['questions'])[i];
 		let curr = exam['questions'][key];
 		console.log(curr);
-		let require = curr['constraint']==null?"":"<div class='questionText'>NOTE: This question requires the following keyword: "+(curr['constraint'])+"</div>";
+		let require = curr['constraint']!="print"?"<div class='questionText'>NOTE: This question requires the following keywords: "+(curr['constraint'])+", and return. </div>":"<div class='questionText'>NOTE: This question requires the following keywords: "+(curr['constraint'])+" </div>";
 		let newItem=`<div class="questionWritten">
 		<div>
 		  <div style="font-size:1.5em; font-weight:bold;${i==0?'margin-top:20px;':''}" class="questionTitle">Question ${i+1}:</div>
@@ -719,7 +778,7 @@ function assembleExam(){
 		<div style="float:right; padding-top:220px;padding-right:50px; text-align:right">Value: ${curr['points']} Pts</div>
 		<hr>
 	  </div>`
-		document.getElementById('exam').innerHTML+=newItem;
+		document.getElementById('examTake').innerHTML+=newItem;
 		console.log(newItem);
 	}
 }
@@ -733,36 +792,50 @@ function sendExamBack(){
 
 	NewExam = exam;
 	let student = Object.keys(exam)[0];
-	try{
+	console.log("WORKING NEWEXAM STARTS");
+	console.log(NewExam);
+	console.log(Object.keys(NewExam[student]['questions']).length);
 	for (let i = 0;i<Object.keys(NewExam[student]['questions']).length;i++){
-		//let curr = ;
+		NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['score']=0;
+		console.log("QUESTION: "+i);
 		console.log("Question working on: "+Object.keys(NewExam[student]['questions'])[i]);
 		for(let j = 0;j<NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['comments'].length;j++){
+
 			NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['comments'][j]	= document.getElementById(i+"_"+j+"_comment").value;
-			NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]	= parseInt(document.getElementById(i+"_"+j+"_marksoff").value);
+		
+			NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]	= parseFloat(document.getElementById(i+"_"+j+"_marksoff").value );
+		
 			console.log(`Comments ${i+"_"+j} ${document.getElementById(i+"_"+j+"_comment").value}`);
-			console.log(`MarksOff ${i+"_"+j} ${document.getElementById(i+"_"+j+"_marksoff").value}`);
-		
-			if (isNaN(document.getElementById(i+"_"+j+"_marksoff").value) ){
-				throw "NaN";
+			console.log(`MarksOff ${i+"_"+j} ${parseFloat(document.getElementById(i+"_"+j+"_marksoff").value)}`);
+			NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['score']-=-(parseFloat(document.getElementById(i+"_"+j+"_marksoff").value));	
+			//MarksOff[j] > pointsPer[j]
+			if(NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j] > NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['pointsPer'][j]){
+				NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]=NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['pointsPer'][j];
 			}
-		
+			//MarskOff[j] not an integer go to 0
+			if(isNaN((NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]))){
+				NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]=0;
+			}
+			//MarksOff[j] negative
+			if(NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j] < 0){ 
+				NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'][j]=0;
+			}
+			if(NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['score'] > NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['points']){
+				NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['score']=NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['points'];
+			}
 		}
 		NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['comments'].push(document.getElementById(i+"_Misc").value);
 		NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['marksoff'].push(0);
+		NewExam[student]['questions'][Object.keys(NewExam[student]['questions'])[i]]['pointsPer'].push(0);
 	}
-	}catch(err){
-		alert("Be sure all the inputs are of the correct type!");
-		NewExam = exam;
-	}
-
+		console.log("PRE SUBMIT");
+		console.log(NewExam)
 
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			console.log(NewExam)
 			console.log("submitted.")
-			//exam ={};
-			//LoadStudentExam();
+			getStudents()
 		}
 	}
 
@@ -782,22 +855,27 @@ function assembleExamComments(){
 		console.log(exam);
 
 		let sum = 0;
-		let debug = "{\r\n  \"1\" : {\r\n      \"questions\" : {\r\n          \"adds\" : {\r\n              \"func_name\" : \"adds\",\r\n             \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"1\", \"2\", \"4\"], [\"8\", \"4\", \"6\"], [\"1\", \"6\", \"7\"]],\r\n              \"expected_outputs\" : [\"7\", \"18\", \"14\"],\r\n              \"constraint\" : \"for\",\r\n              \"points\" : 25,\r\n              \"answer\" : \"def adds(x, y, z):\\n\\tprint(x+y+z)\",\r\n              \"score\" : 25,\r\n              \"comments\" : [\"correct thing\", \"test case passed1\", \"test case passed2\"],\r\n              \"marksoff\" : [10, 10, 5]\r\n          },\r\n          \"multiply\" : {\r\n              \"func_name\" : \"multiply\",\r\n              \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"4\", \"8\"], [\"8\", \"8\"]],\r\n              \"expected_outputs\" : [\"32\",\"64\"],\r\n              \"constraint\" : \"print\",\r\n              \"points\" : 50,\r\n              \"answer\" : \"def mult(x, y):\\n\\treturn x*y\",\r\n              \"score\" : 35,\r\n              \"comments\" : [\"Wrong function name.\", \"got points wooo\", \"Expected \\\"multiply\\\", got \\\"mult\\\".\", \"more points!\"],\r\n              \"marksoff\" : [-10, 20, -5, 15]\r\n          },\r\n          \"max\" : {\r\n              \"func_name\" : \"doubleIt\",\r\n              \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"9\"], [\"4\"]],\r\n              \"expected_outputs\" : [\"18\",\"8\"],\r\n              \"constraint\" : null,\r\n              \"points\" : 25,\r\n              \"answer\" : \"def doubleIt(x):\\n\\treturn 18\",\r\n              \"score\" : 15, \r\n              \"comments\" : [\"passed 1\", \"passed 2\" , \"wrong func name\"],\r\n              \"marksoff\" : [10, 10, -5]\r\n          }\r\n      }\r\n  }\r\n}\r\n\r\n";
+		let debug = "{\r\n\t\"sn479\": {\r\n\t\t\"questions\": {\r\n\t\t\t\"adds\": {\r\n\t\t\t\t\"func_name\": \"adds\",\r\n\t\t\t\t\"description\": \"double the number\",\r\n\t\t\t\t\"inputs\": [\r\n\t\t\t\t\t[\"1\", \"2\", \"4\"],\r\n\t\t\t\t\t[\"8\", \"4\", \"6\"],\r\n\t\t\t\t\t[\"1\", \"6\", \"7\"]\r\n\t\t\t\t],\r\n\t\t\t\t\"expected_outputs\": [\"7\", \"18\", \"14\"],\r\n\t\t\t\t\"constraint\": \"for\",\r\n\t\t\t\t\"points\": 25,\r\n\t\t\t\t\"answer\": \"def adds(x, y, z):\\n\\tprint(x+y+z)\",\r\n\t\t\t\t\"score\": 25,\r\n\t\t\t\t\"comments\": [\"correct thing\", \"test case passed1\", \"test case passed2\"],\r\n\t\t\t\t\"marksoff\": [10, 10, 5],\r\n\t\t\t\t\"pointsPer\": [10, 20, 5, 15]\r\n\t\t\t},\r\n\t\t\t\"multiply\": {\r\n\t\t\t\t\"func_name\": \"multiply\",\r\n\t\t\t\t\"description\": \"double the number\",\r\n\t\t\t\t\"inputs\": [\r\n\t\t\t\t\t[\"4\", \"8\"],\r\n\t\t\t\t\t[\"8\", \"8\"]\r\n\t\t\t\t],\r\n\t\t\t\t\"expected_outputs\": [\"32\", \"64\"],\r\n\t\t\t\t\"constraint\": \"print\",\r\n\t\t\t\t\"points\": 50,\r\n\t\t\t\t\"answer\": \"def mult(x, y):\\n\\treturn x*y\",\r\n\t\t\t\t\"score\": 35,\r\n\t\t\t\t\"comments\": [\"Wrong function name.\", \"got points wooo\", \"Expected \\\"multiply\\\", got \\\"mult\\\".\", \"more points!\"],\r\n\t\t\t\t\"marksoff\": [-10, 20, -5, 15],\r\n\t\t\t\t\"pointsPer\": [10, 20, 5, 15]\r\n\t\t\t},\r\n\t\t\t\"max\": {\r\n\t\t\t\t\"func_name\": \"doubleIt\",\r\n\t\t\t\t\"description\": \"double the number\",\r\n\t\t\t\t\"inputs\": [\r\n\t\t\t\t\t[\"9\"],\r\n\t\t\t\t\t[\"4\"]\r\n\t\t\t\t],\r\n\t\t\t\t\"expected_outputs\": [\"18\", \"8\"],\r\n\t\t\t\t\"constraint\": null,\r\n\t\t\t\t\"points\": 25,\r\n\t\t\t\t\"answer\": \"def doubleIt(x):\\n\\treturn 18\",\r\n\t\t\t\t\"score\": 15,\r\n\t\t\t\t\"comments\": [\"passed 1\", \"passed 2\", \"wrong func name\"],\r\n\t\t\t\t\"marksoff\": [10, 10, -5],\r\n\t\t\t\t\"pointsPer\": [10, 20, 5, 15]\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}";
 
-		if (debug){
+		if (DEBUG){
 			exam=JSON.parse(debug);
+			student = Object.keys(exam)[0];
 			console.log("DEBUG EXAM");
 			console.log(exam);
+			console.log("Student");
+			console.log(student);
 		}
 
+		let worth = 0;
 		for (let i =0; i<Object.keys(exam[student]['questions']).length;i++){
-			sum+=exam[student]['questions'][Object.keys(exam[student]['questions'])[i]]['score'];
+			sum+=parseFloat(exam[student]['questions'][Object.keys(exam[student]['questions'])[i]]['score']);
+			worth+=parseFloat(exam[student]['questions'][Object.keys(exam[student]['questions'])[i]]['points']);
 			console.log(Object.keys(exam[student]['questions'])[i]);
 		}
 
 		document.getElementById('exam').innerHTML = `
 			<div>
-				<h2 class="questionTitle">${student}'s final Score: ${sum}</h2>
+				<h2 class="questionTitle">${student}'s final Score: ${parseInt(sum)}/${worth} (${parseInt(100*sum/worth)}%)</h2>
 			</div>
 			<hr>
 		`;
@@ -807,39 +885,30 @@ function assembleExamComments(){
 			let curr = exam[student]['questions'][Object.keys(exam[student]['questions'])[i]];//exam[student]['questions'][key];
 			let comments = "";
 	
-			for (let j=0;j<curr['comments'].length;j++){
+			for (let j=0;j<curr['marksoff'].length;j++){
+				if (curr['pointsPer'][j] != undefined){
 				comments+=`
 					<div style="width:100%; height:80px;" >
-					<div class="ans"style="float:left; width:750px; font-size:18px">
-					 Comment ${j+1}:
-						<br>
-					<textarea id=${i+"_"+j+"_comment"} class="comment">${curr['comments'][i]}</textarea>
-					</div>
-					<div class="ans"style="float:left; width:130px; font-size:18px">
-					Points Delta:
-					<br>
-					<textarea id=${i+"_"+j+"_marksoff"} class="comment">${curr['marksoff'][i]}</textarea>
-					</div>
+						<div class="ans"style="float:left; width:600px; font-size:18px">
+						 Comment ${j+1}:
+							<br>
+						<textarea id=${i+"_"+j+"_comment"} class="comment">${curr['comments'][j]}</textarea>
+						</div>
+						`;
+						comments+=`<div class="ans"style="float:left; width:130px; font-size:18px">
+							Worth:
+							<br>
+							<textarea disabled class="comment">${curr['pointsPer'][j]}</textarea>
+						</div>
+						<div class="ans"style="float:left; width:130px; font-size:18px">
+							Awarded:
+							<br>
+							<textarea id=${i+"_"+j+"_marksoff"} class="comment">${parseFloat(curr['marksoff'][j])}</textarea>
+						</div>
 					</div>
 				`
+				}
 			}
-			/*
-			 
-	<!--  Thing to replicate
-  <div style="width:100%; height:80px;">
-  <div class="ans"style="float:left; width:750px; font-size:18px">
-   Comment 1:
-    <br>
-  <textarea class="comment">Some Comment</textarea>
-  </div>
-  <div class="ans"style="float:left; width:130px; font-size:18px">
-  Points Delta:
-  <br>
-  <textarea class="comment">50</textarea>
-  </div>
-  </div>
-  -->
-			 */
 
 	document.getElementById('exam').innerHTML+=`<div class="questionWritten" id=${i}>
   <div>
@@ -849,12 +918,12 @@ function assembleExamComments(){
   Objective: ${curr['description']}
   </div>
   <div class="ans">Answer Given:</div>
-  <div class="studentAns">
-  ${curr['answer']}
-  </div>
+  <pre class="studentAns">${curr['answer']}</pre>
 	${comments}
+	<br>
+	<br>
 	<div class="ans" >Misc Comments:</div>
-	<textarea id=${i+"_Misc"} onkeydown="return stopTab(event);"></textarea>
+	<textarea id=${i+"_Misc"} style="" onkeydown="return stopTab(event);"></textarea>
   <div style="float:right; padding-top:220px;padding-right:50px">Value: ${curr['points']}</div>
   <div style="float:right; padding-top:220px;padding-right:50px">${key}</div>
   <hr>
@@ -868,13 +937,15 @@ function LoadStudentExam(){
 
 	let xhttp = new XMLHttpRequest();
 	let args = {"username":document.getElementById("selectName").value};
-	console.log(`Trying for ${document.getElementById("selectName").value}`)
+	console.log(`Trying for ${args['username']}`);
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 
 
 			console.log(this.response);
-			if (isJSON(this.response)){
+			if (DEBUG){
+				assembleExamComments();
+			}else if (isJSON(this.response)){
 				exam=JSON.parse(this.response);
 				assembleExamComments();
 			}else{
@@ -912,8 +983,9 @@ function SubmitFinishedExam(){
 
   xhttp1.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-				console.log("State of submission: "+this.response);
-			}
+			console.log("State of submission: "+this.response);
+			alert("Student submitted exam.");
+		}
 			console.log("Should have sent?");
 	}
 	console.log("exam:");
@@ -933,7 +1005,7 @@ function SubmitFinishedExam(){
 		user["questions"][key]["score"] = 0;	
 		user["questions"][key]["points"] = user["questions"][key]["points"]; 
 		user["questions"][key]["comments"] = []; 
-
+		
 		//['answer']=(document.getElementById(i).value);
 		//complete[args['username']]['questions'][i]['score'] = 0;
 		//complete[args['username']]['points'] = exam['questions'][i]['answers'];
@@ -960,7 +1032,8 @@ function SubmitFinishedExam(){
 //For Taking
 function LoadStudentExamTake(){
 
-	let debug = "{ \"questions\" : {\r\n          \"adds\" : {\r\n              \"func_name\" : \"adds\",\r\n \t\t   \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"1\", \"2\", \"4\"], [\"8\", \"4\", \"6\"], [\"1\", \"6\", \"7\"]],\r\n              \"expected_outputs\" : [\"7\", \"18\", \"14\"],\r\n              \"constraint\" : \"for\",\r\n              \"points\" : 25\r\n          },\r\n          \"multiply\" : {\r\n              \"func_name\" : \"multiply\",\r\n   \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"4\", \"8\"], [\"8\", \"8\"]],\r\n              \"expected_outputs\" : [\"32\",\"64\"],\r\n              \"constraint\" : \"print\",\r\n              \"points\" : 50\r\n          },\r\n          \"max\" : {\r\n              \"func_name\" : \"doubleIt\",\r\n              \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"9\"], [\"4\"]],\r\n              \"expected_outputs\" : [\"18\",\"8\"],\r\n              \"constraint\" : null,\r\n              \"points\" : 25\r\n          }\r\n     }\r\n}\r\n";
+	let debug = "";
+	//let debug = "{ \"questions\" : {\r\n          \"adds\" : {\r\n              \"func_name\" : \"adds\",\r\n \t\t   \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"1\", \"2\", \"4\"], [\"8\", \"4\", \"6\"], [\"1\", \"6\", \"7\"]],\r\n              \"expected_outputs\" : [\"7\", \"18\", \"14\"],\r\n              \"constraint\" : \"for\",\r\n              \"points\" : 25\r\n          },\r\n          \"multiply\" : {\r\n              \"func_name\" : \"multiply\",\r\n   \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"4\", \"8\"], [\"8\", \"8\"]],\r\n              \"expected_outputs\" : [\"32\",\"64\"],\r\n              \"constraint\" : \"print\",\r\n              \"points\" : 50\r\n          },\r\n          \"max\" : {\r\n              \"func_name\" : \"doubleIt\",\r\n              \"description\" : \"double the number\",\r\n              \"inputs\" : [[\"9\"], [\"4\"]],\r\n              \"expected_outputs\" : [\"18\",\"8\"],\r\n              \"constraint\" : null,\r\n              \"points\" : 25\r\n          }\r\n     }\r\n}\r\n";
 
 	if (document.URL.includes("studentTake")){
 		if (debug==""){
@@ -996,66 +1069,65 @@ function LoadStudentExamTake(){
 function assembleAnswersStudentReview(){
 	console.log(exam);
 	let student = Object.keys(exam)[0];
+
 	for (let i = 0; i<Object.keys(exam[student]['questions']).length;i++){
+		console.log(i);
 		let key = Object.keys(exam[student]['questions'])[i];
 		let curr = exam[student]['questions'][key];
 		document.getElementById("heap").innerHTML+=`<div style="background: #FFF;text-align: left" class="questionWritten">
 		<div>
-			<h2  class="questionTitle">Question ${i+1}:</h2>
+			<h2 class="padleftSmall">Question ${i+1}:</h2>
 		</div>
-		<div class="questionText">
-			Objective: ${curr['description']}
+		<div class="padleftSmall">
+			<strong>Objective:</strong> ${curr['description']}
 		</div>
-		<div style="float:left; margin-left: 20px;">Score: ${exam[student]['points'][i]} points:</div>
-		<div class="ans">Answer Given:</div>
-		<div class="answerDisplay" id="" onkeydown="return stopTab(event);">
-			${exam[student]['answers'][i]}
+		<div>
+		${curr['constraint']!="print"?"<div class='padleftSmall'><strong>NOTE:</strong> This question requires the following keywords: "+(curr['constraint'])+", and return. </div>":"<div class='padleftSmall'><strong>NOTE:</strong> This question requires the following keywords: "+(curr['constraint'])+" </div>"}
 		</div>
-		<hr>
-		`
+		<div class="padleftSmall padtop"><strong>Answer Given:</strong></div>
+		<pre class="padleftSmall" id="" onkeydown="return stopTab(event);">${curr['answer']}</pre>
+		<div class="padleftSmall" style="float:left; "><strong>Points Recieved:</strong> ${curr['score']} </div>
+		<br>
+		<br>
+		<hr>`
 	}
-	document.getElementById("comments").innerHTML=`<h1>FINAL SCORE: ${exam[student]['score']}/100</h1>
-	<br>
-	<p>${exam[student]['comments']}</p>`
+	document.getElementById("comments").innerHTML+=`<h1 class="padleftSmall">Criteria, Scoring & Comments</h1>`
+	for (let i = 0;i<Object.keys(exam[student]['questions']).length;i++){
+		let key = Object.keys(exam[student]['questions'])[i];
+		let curr = exam[student]['questions'][key];
+		document.getElementById("comments").innerHTML+=`<hr><h2 class="padleftSmall">Question ${i+1}</h2>`
+		for (let j = 0;j<curr['comments'].length;j++){
+			if (curr['comments'][j]==0){
+				continue;
+			}
+			document.getElementById("comments").innerHTML+=`
+			<p class="padleft">${j+1}) ${curr['comments'][j]} ${curr['marksoff'][j]}/${curr['pointsPer'][j]}</p>`
+		}
+	
+	}
 	document.getElementById("comments").style.backgroundColor="#FFF";
+	console.log("should have finished");	
 }
 
 function GetResults(){
-	let args = {
-		'username':""+document.getElementById("user").value,
-		'password':""+document.getElementById("pass").value
-	};
 
-	let xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			if(this.response==" student"){
-				console.log("is student");
-				let student = args['username'];
-				let xhttp1 = new XMLHttpRequest();
+	let student = localStorage.getItem("username");	
+	let xhttp1 = new XMLHttpRequest();
 
-				xhttp1.onreadystatechange = function() {
-					if(this.readyState==4 &&this.status==200){
-						console.log(this.response);
-						exam = JSON.parse(this.response);
-						assembleAnswersStudentReview();
-					}
-				}
-				xhttp1.open("POST", scott, true);
-				xhttp1.setRequestHeader("Request-Type", "review_grade");
-				xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				console.log(xhttp1);
-				xhttp1.send(JSON.stringify({"username":student}));
-			}
+	xhttp1.onreadystatechange = function() {
+		if(this.readyState==4 &&this.status==200){
+			console.log("EXAM GOT");
+			console.log(this.response);
+			exam = JSON.parse(this.response);
+			assembleAnswersStudentReview();
 		}
 	}
+	xhttp1.open("POST", scott, true);
+	xhttp1.setRequestHeader("Request-Type", "review_grade");
+	xhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	console.log(xhttp1);
+	xhttp1.send(JSON.stringify({"username":student}));
 
-	xhttp.open("POST", scott, true);
-	xhttp.setRequestHeader("Request-Type", "login");
-	xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
-	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	console.log(xhttp);
-	xhttp.send(JSON.stringify(args));
 }
 
 function stopTab( e ) {
@@ -1110,6 +1182,7 @@ function getStudents(){
 		console.log(this.response);
 		students = JSON.parse(this.response);
 		try{
+			document.getElementById("selectName").innerHTML='<option value="-" selected>---</option>';
 			for (let i = 0;i<Object.keys(students).length;i++){
 				let key = Object.keys(students)[i];
 				let curr = students[key];
@@ -1165,7 +1238,9 @@ function onKeyDown(e) {
 
 console.log("User: "+localStorage.getItem("username"));
 
+//TeacherSearch
 try{
+	Lock();
 	createAbsoluteNumQuery();
 	LoadStudentExamTake();
 	createJSONQuestionQuery();																																																		  //
@@ -1173,9 +1248,20 @@ try{
 
 }
 
+
+try{
+	LoadStudentExamTake();
+}catch(err){
+	console.log('Error on loadstudentexamtake');
+	console.log(err);
+}
+//TeacherReview, I think
 try{
 	LoadStudentExam();
+	console.log("fine?");
 }catch(err){
+	console.log('Error on loadstudentexam');
+	console.log(err);
 }
 
 try{
@@ -1186,4 +1272,6 @@ for(let i =0; i<2;i++){
 
 }
 //TestCaseErrors();
-
+try{
+GetResults()
+}catch(err){}

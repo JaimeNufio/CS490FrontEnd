@@ -43,7 +43,7 @@
                   </input>
                 </div>
                 <br>
-                <div class="option">
+  <!--              <div class="option">
                   <div class="selectheading">
                     Variables:
                   </div>
@@ -51,6 +51,7 @@
                   </input>
                 </div>
                 <br>
+								-->
 								<div class="leftdiv">
                 <div class="option">
                   <div class="selectheading" style="">
@@ -90,14 +91,16 @@
                   <select id="constraints" value="null" class="select" style="float:left;width:80%">
                     <option value="while">For</option>
                     <option value="for">While</option>
-                    <option value="null" selected="selected">Neither</option>
+                    <option value="print">Print</option>
+                    <option value="return">Return</option>
+                    <!-- <option value="null" selected="selected">Neither</option>-->
                   </select>
                 </div>
 								</div>
               </div>
 
 						<div class="rightdiv"style="margin-bottom:0px;border-left:0px solid #FF0">
-							<div class="selectheading" >Test Cases:<hr></div>
+							<div class="selectheading" >Test Cases ( '|' seperated terms):<hr></div>
 							<div id="testcases" class="">
 <!--
 								<div class="case" style="" id = "a">
@@ -119,21 +122,26 @@
 								</div>
 
 								<div id="AddMore" style="width:50%; float:right">
-									<button onclick="deltaHTMLInputs(-1)" style="width:50%; float:left">[-]</button>
-									<button onclick="deltaHTMLInputs(1)" style="width:50%; float:left">[+]</button>
+									<button class="btn" onclick="deltaHTMLInputs(-1)" style="width:50%; float:left">[-]</button>
+									<button  class="btn"onclick="deltaHTMLInputs(1)" style="width:50%; float:left">[+]</button>
 								</div>
 							</div>	
-							<!-- 	
-             -->
-
 							<div class="confirm">
 								<br>
                 <hr>
-              </div>
-                <div class = "">
-                  <button onclick="createJSONQuestionAdd()" class="select paddtop">Submit</button>
-								<div id="feedbackA" class="feedback" style=""></div>
-            </div>
+							</div>
+							<div class="" style="margin:0 auto 0 auto;width:50%;margin-top:15px">
+								<button  class="btn"onclick="createJSONQuestionAdd()" style="width:100%;" class="select paddtop">Submit</button>
+							</div>
+							<div class="" style="margin:0 auto 0 auto;width:50%;margin-top:15px">
+								<button  class="btn"onclick="hideAddQuestion()" style="width:100%;" class="select paddtop">Show Exam</button>
+							</div>
+
+							<div class="">
+                <div style="width:100%;height:100%" class = "">	
+									<div id="feedbackA" class="feedback" style="margin-top:12px;width:100%;height:100%"></div>
+								</div>
+            	</div>
 						</div>
           </div>
 
@@ -177,11 +185,12 @@
                 <div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
                   <select onchange="createJSONQuestionQuery()" id="qtopic" class="select" style="width:150px;height:22px; float:left">
+                    <option value="null" selceted>---</option>
                     <option value="lists">1: Lists</option>
                     <option value="turtles">2: Turtles</option>
                     <option value="if">3: If</option>
                     <option value="for_loops">4: For Loops</option>
-                    <option value="def" selected  >5: Def</option>
+                    <option selected value="def" >5: Def</option>
                     <option value="while">6: While</option>
                     <option value="string_methods">7: String Methods</option>
                     <option value="files">8: Files</option>
@@ -198,7 +207,8 @@
                 <div class="optionsrowitem"  style="width: 33%">
                   <div class="rowitem ">Difficulty: </div>
                   <select onchange="createJSONQuestionQuery()" id="qdifficulty" class="select" style="width:150px;height:22px;float:left">
-                    <option value="easy">Easy</option>
+                    <option value="null" selected>---</option>
+                    <option selected value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                   </select>
@@ -254,16 +264,15 @@
             <div class="box">
               <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
             </div>
-	  </div>
+	  			</div>
           <div class="flexContainer">
-            <div class="box" ><button style="width:94%;float:left"onclick="Lock()">Ensure Exam is Out of 100 Pts</button></div>
-            <div class="box" ><button style="width:94%;float:right"onclick="submitBuiltExam()">Submit New Exam</button></div>
+            <div class="box" ><button id="lock" class="btn" style="width:94%;float:left"onclick="Lock()">Toggle Exam Scoring</button></div>
+            <div class="box" ><button class="btn" style="width:94%;float:right"onclick="submitBuiltExam()">Submit New Exam</button></div>
           </div>
           <br>
           <div style="margin:0 50px 0 50px">
-            <button style="width:47%;float:left" onclick="goToReview()">Review Student Exams</button>
-
-            <button style="width:47%;float:right" onclick="releaseScores()">Release Exam Scores</button>
+            <button class="btn" style="width:47%;float:left" onclick="goToReview()">Review Student Exams</button>
+	   				<button class="btn" style="width:47%;float:right" onclick="releaseScores()">Release Exam Scores</button>
           </div>
 
         <!-- end of right side-->

@@ -1,10 +1,28 @@
 :root{
+/*
+*/
+--NJITBlue: #000c35;
+--NJITRed: #d3001a;
+--NJITGrey: #cbcbcb;
+--NJITWhite: #FFF;
 --dark1:#343d46;
 --dark2:#4f5b66;
 --med:#65737e;
 --light2:#a7adba;
 --light1:#c0c5ce;
---white:#DFDFDF;
+--w:#DFDFDF;
+
+--FlatBG:#000c35;
+--menuBG:var(--w);
+--darkMenuBG:#000c35;
+	/* Notes:
+	 * Button BG should match menueBG?
+	 *
+	 *
+	 * */
+
+--buttonA:#000c35;
+--buttonBG:var(--menuBG);
 }
 
 /*cofee
@@ -28,23 +46,22 @@
 --white:#DFDFDF;
 }
 */
-
 /*
 :root{
---dark2:#121212;
---med:#1db954;
---light2:#b3b3b3;
---dark1:#212121;
---light1:#535353;
-}
-*/
+	--accent:#1db954;
+	--dark2:#121212;
+	--light2:#b3b3b3;
+	--med:#A0A0A0;
+	--dark1:#212121;
+	--light1:#535353;
+}*/
 
 *{
 	font-family: 'Varela Round', sans-serif;
 	color:var(--dark1);
 }
 body{
-  background-color:var(--med);
+  background-color:var(--darkMenuBG);
   /*background-image:url("actualnjit.jpg");
 	background-size:     cover;
 	background-repeat:   no-repeat;*/
@@ -57,8 +74,17 @@ img{
 	padding-top:10px;
 }
 
+pre.padleftSmall{
+	width:80%;
+	background:var(--NJITGrey);
+	margin-left:15px;
+	padding: 5px;
+	border-radius:8px;
+}
+
 textarea{
   resize: none;
+	font-size:20px;
 }
 
 #login{
@@ -68,10 +94,11 @@ textarea{
 button,#button{
   margin-top:35px;
   height:40px;
-  background-color: var(--light1);
+  background-color: var(--buttonBG);
   border: solid;
-	border-color: var(--dark2);
-  color: var(--dark2);
+	border-width:2px !important;
+	border-color: var(--buttonA);
+  color: var(--buttonA);
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -81,23 +108,39 @@ button,#button{
   transition-duration: 0.4s;
 }
 
-button:hover,#button:hover,.down,.questionPreviewButton.up:hover {
- 	background-color: var(--dark2);
-	color: var(--light1);
-	border-color: var(--light1);
+button.btn:hover,#button:hover,.questionPreviewButton.up:hover {
+ 	background-color: var(--buttonA);
+	color: var(--buttonBG);
+	border-color: var(--buttonBG);
 }
 
+.questionPreviewButton.down:hover {
+ 	background-color: var(--buttonBG);
+	color: var(--buttonA);
+	border-color: var(--buttonA);
+}
+
+select[multiple]:focus option:checked {
+	background: var(--NJITBlue) linear-gradient(0deg, var(--NJITBlue) 0%, var(--NJITBlue) 100%);
+	color: red; 
+}
+
+select:active,select:hover{
+	background-color:blue;
+}
 .questionPreviewButton.up{
- 	background-color: var(--light1);
-	color: var(--dark2);
-	border-color: var(--dark2);
+ 	background-color: var(--buttonBG);
+	color: var(--buttonA);
+	border-color: var(--buttonA);
 }
 
 .questionPreviewButton.down{
-  background-color: var(--dark2);
-	color: var(--light1);
-	border-color: var(--light1);
+  background-color: var(--buttonA);
+	color: var(--buttonBG);
+	border-color: var(--buttonBG);
 }
+
+
 /* width */
 ::-webkit-scrollbar {
 	width: 5px;
@@ -121,21 +164,22 @@ button:hover,#button:hover,.down,.questionPreviewButton.up:hover {
 }
 
 hr{
-	background-color:var(--dark2)!important;
+	background-color:var(--NJITBlue)!important;
 	height:2px;
 	border-width:0px;
 }
 
 textarea,input,select{
-	background-color: var(--light1) !important;
+	background-color: var(--light2) !important;
 	background:#f1f1f1; border-style:solid; 
 }
 
 
 #main{
-  border: solid;
+	border: solid;
+	border-width:0px;
 	border-color: var(--dark2);
-	background:var(--light2);
+	background:var(--menuBG);
 	color:var(--dark2);
 	margin: 50px auto;
   width: 90%;
@@ -177,7 +221,6 @@ textarea,input,select{
   width:50%;
   height:100%;
   float:right;
-
 }
 
 .container{
@@ -190,7 +233,7 @@ textarea,input,select{
   margin: 0 auto;
   width: 20%;
   border-radius:9px;
-  background-color:var(--light2);
+  background-color:var(--menuBG);
   margin-top: 100px;
 }
 
@@ -343,7 +386,7 @@ input,button{
 }
 
 .scroll.review{
-  height:525px;
+  height:675px;
 }
 
 
@@ -385,7 +428,7 @@ input,button{
 .questionPreview{
 
   width:100%;
-  background-color: var(--white);
+  background-color: var(--w);
   margin: none;
   outline-style: solid;
   outline-width: thin;
@@ -459,6 +502,11 @@ input,button{
 }
 
 .questionWritten{
+  padding-top:2px;
+  padding-bottom:2px;
+}
+
+.questionWrittenOld{
   padding-top:2px;
   padding-bottom:20px;
 }
@@ -574,4 +622,17 @@ color:var(--light1);margin-top:5px;text-align:center; width:100%;
 
 .teacherText{
 color:var(--dark2);margin-top:5px;text-align:center; width:100%;
+}
+
+.padleft{
+	margin-top:0px !important;
+	padding-left:25px;
+}
+.padleftSmall{
+	padding-left:15px;
+}
+
+.padtop{
+	padding-top:15px;
+	padding-bottom:2px;
 }
