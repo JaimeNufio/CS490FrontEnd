@@ -106,7 +106,6 @@ function handleClick(event) {
             ButtonStateHandler(element);
             break;
         }
-
         element = element.parentNode;
     }
 }
@@ -166,7 +165,12 @@ function ButtonStateHandler(button) {
 			functionWorth.push((val));
 		}else{
 			//console.log("NaN");
-			alert("Erroneous Input. (Require: positive integer greater than 0. If 100 point bound set, total cannot exceed 100.)");
+			//alert("Erroneous Input. (Require: positive integer greater than 0. If 100 point bound set, total cannot exceed 100.)");
+			
+			document.getElementById("feedbackB").innerHTML="Erroneous Input. (Require: positive integer greater than 0. If 100 point bound set, total cannot exceed 100.)";	
+			setTimeout(function() { 
+				document.getElementById("feedbackB").innerHTML="";
+			}, 3000);	
 		}
 	}else{
 		let buttonId = button.parentElement.parentElement.parentElement.parentElement.parentElement.id;
@@ -415,7 +419,8 @@ function properStrip(){
 
 function createJSONQuestionAdd(){
 	document.getElementById("feedbackA").innerHTML = "";
-	document.getElementById("feedbackA").style.color= "#e40042";
+	document.getElementById("feedbackA").style.color= "#e40042";//red
+	//document.getElementById("feedbackA").style.color= "#31c55a";//green
 	////console.log(getTopics());
 	if (document.getElementById("fname").value.length == 0 || //document.getElementById("vars").length == 0 ||
 		document.getElementById("desc").length == 0 || document.getElementById("topics").value.length == 0){ 
@@ -436,7 +441,7 @@ function createJSONQuestionAdd(){
 				//"inputs" : [document.getElementById("in1").value.split(","), document.getElementById("in2").value.split(",")],
 				"inputs" : gatherInputs(), 
 				//"expected_outputs" : [document.getElementById("out1").value, document.getElementById("out2").value],
-				"constraints" : document.getElementById("constraints").value,
+				"constraint" : document.getElementById("constraints").value,
 				"expected_outputs" : gatherOutputs(), 
 				"difficulty" : document.getElementById("difficulty").value,
 				"topics" : getTopics()
@@ -512,7 +517,21 @@ function releaseScores(){
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			//console.log(this.response);
-			alert("Exam released!");
+			try{
+				document.getElementById("feedbackB").innerHTML="Exams released!";	
+				document.getElementById("feedbackB").style.color="#31c55a";
+			setTimeout(function() { 
+				document.getElementById("feedbackB").style.color="#e40042";
+				document.getElementById("feedbackB").innerHTML="";
+			}, 3000);
+			}catch(err){
+				document.getElementById("feedbackA").innerHTML="Exams released!"
+				document.getElementById("feedbackA").style.color="#31c55a";
+			setTimeout(function() { 
+				document.getElementById("feedbackA").style.color="#e40042";
+				document.getElementById("feedbackA").innerHTML="";
+			}, 3000);
+			}
 		}
   };
 
@@ -706,7 +725,12 @@ function createExam(){
 function submitBuiltExam(){
 	if ( (lock && total != 100) ) {
 		//console.log("improper");
-		alert("Exam is not out of 100, but you have the safety lock on.");
+		//alert("Exam is not out of 100, but you have the safety lock on.");
+		document.getElementById("feedbackB").innerHTML="Exam is not out of 100, but you have the safety lock on.";
+		setTimeout(function() { 
+			document.getElementById("feedbackB").style.color="#e40042";
+			document.getElementById("feedbackB").innerHTML="";
+		}, 3000);	
 		return;
 	}else{
 
@@ -715,15 +739,14 @@ function submitBuiltExam(){
 	let xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function() {
-
 		if (this.readyState == 4 && this.status == 200) {
-			alert("Sucessfully uploaded the new exam!");
-			//console.log(this.response);
-			//No clue why this was here, but let's leave the comment incase we need it.
-			//Although we shouldn't, this is rewriting information for no real reason.
-			//theObject = JSON.decode(this.response);
+			document.getElementById("feedbackB").innerHTML="Sucessfully uploaded the new exam!";
+			document.getElementById("feedbackB").style.color="#31c55a";
+			setTimeout(function() { 
+				document.getElementById("feedbackB").style.color="#e40042";
+				document.getElementById("feedbackB").innerHTML="";
+			}, 3000);	
 		}
-
   	};
 
 	xhttp.open("POST", scott, true);
@@ -820,6 +843,13 @@ function sendExamBack(){
 
   xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+			
+			document.getElementById("feedbackB").innerHTML=`${student}'s exam comments submitted.`
+			document.getElementById("feedbackB").style.color= "#31c55a";//green
+			setTimeout(function() { 
+				document.getElementById("feedbackB").style.color="#e40042";
+				document.getElementById("feedbackB").innerHTML="";
+			}, 3000);	
 			//console.log(NewExam)
 			//console.log("submitted.")
 			getStudents()
@@ -956,7 +986,7 @@ function LoadStudentExam(){
 //student finished the exam
 function SubmitFinishedExam(){
 
-	if (!confirm("You are about to submit your exam! Are you sure you wish to do this?")){
+	if (!true){//!confirm("You are about to submit your exam! Are you sure you wish to do this?")){
 		//console.log("Student didn't want to submit.");
 		return;
 	}
@@ -974,9 +1004,13 @@ function SubmitFinishedExam(){
   xhttp1.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			//console.log("State of submission: "+this.response);
-			alert("Student submitted exam.");
+			document.getElementById("feedbackB").innerHTML="Student submitted exam."
+			document.getElementById("feedbackB").style.color= "#31c55a";//green
+			setTimeout(function() { 
+				document.getElementById("feedbackB").style.color="#e40042";
+				document.getElementById("feedbackB").innerHTML="";
+			}, 3000);	
 		}
-			//console.log("Should have sent?");
 	}
 	console.log("exam:");
 	console.log(exam);
@@ -986,7 +1020,6 @@ function SubmitFinishedExam(){
 	complete[args['username']]['questions'] = exam['questions'];
 
 	for (let i = 0; i< Object.keys(exam['questions']).length; i++){
-		
 		////console.log(document.getElementById(i).value);
 		//console.log(`question ${i} data:`);
 		let user = complete[args["username"]];
@@ -1190,7 +1223,6 @@ function assembleAnswersStudentReview(){
 }
 
 function GetResults(){
-
 	let student = localStorage.getItem("username");	
 	let xhttp1 = new XMLHttpRequest();
 

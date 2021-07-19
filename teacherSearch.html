@@ -8,23 +8,11 @@
   </head>
   <body>
     <div id="main" style="">
-        <div id="leftpannel" class = ""> <!-- scroll was here This is the start of the Input  -->
-         <!-- <div class="title">
-            <div class="set">Topic Here</div>
-          </div>
-          <hr>-->
-
-          <!--Adding Question TODO: Fix input opts, primarily the 'cases' expander-->
+        <div id="leftpannel" class = ""> 
           <div id="AddQuestion" class="pannel" style="display:block">
             <div class="title">
               <h1 class="left">Adding Question: </h1>
               <hr>
-              <!--
-              <p style="text-align: left">
-              If an input would have multiple entries, input as comma seperated list (No spaces!).
-              </p>
-              <hr>
-              -->
             </div>
             <div>
               <div class="selectheading" style="margin-top:2px">
@@ -43,15 +31,6 @@
                   </input>
                 </div>
                 <br>
-  <!--              <div class="option">
-                  <div class="selectheading">
-                    Variables:
-                  </div>
-                  <input id="vars" type="text" class="leftdiv select">
-                  </input>
-                </div>
-                <br>
-								-->
 								<div class="leftdiv">
                 <div class="option">
                   <div class="selectheading" style="">
@@ -89,8 +68,8 @@
                     Require:
                   </div>
                   <select id="constraints" value="null" class="select" style="float:left;width:80%">
-                    <option value="while">For</option>
-                    <option value="for">While</option>
+                    <option value="for">For</option>
+                    <option value="while">While</option>
                     <option value="print">Print</option>
                     <option value="return">Return</option>
                     <!-- <option value="null" selected="selected">Neither</option>-->
@@ -102,25 +81,7 @@
 						<div class="rightdiv"style="margin-bottom:0px;border-left:0px solid #FF0">
 							<div class="selectheading" >Test Cases ( '|' seperated terms):<hr></div>
 							<div id="testcases" class="">
-<!--
-								<div class="case" style="" id = "a">
-                	<div class="option leftdivsmall">
-                 		<div class="selectheading">
-                   		Input Set 1:
-                 		</div>
-                 		<input id="in1" type="text" class="leftdiv select"></input>
-                	</div>
-                	<div class = "option rightdivsmall">
-                 		<div class="selectheading">
-                   		Output 1:
-										</div>
-                 		<input id="out1"type="text"class="rightdiv select"></input>
-									</div>
 								</div>
---!>
-
-								</div>
-
 								<div id="AddMore" style="width:50%; float:right">
 									<button class="btn" onclick="deltaHTMLInputs(-1)" style="width:50%; float:left">[-]</button>
 									<button  class="btn"onclick="deltaHTMLInputs(1)" style="width:50%; float:left">[+]</button>
@@ -136,53 +97,32 @@
 							<div class="" style="margin:0 auto 0 auto;width:50%;margin-top:15px">
 								<button  class="btn"onclick="hideAddQuestion()" style="width:100%;" class="select paddtop">Show Exam</button>
 							</div>
-
 							<div class="">
                 <div style="width:100%;height:100%" class = "">	
-									<div id="feedbackA" class="feedback" style="margin-top:12px;width:100%;height:100%"></div>
+									<div id="feedbackA" class="feedback" style="margin-top:7px;width:100%;height:100%"></div>
 								</div>
             	</div>
 						</div>
           </div>
-
           <div id="QuestionPreview" class="pannel" style="display:none">
             <div class="title">
               <h1 class="left">Exam Preview: </h1>
               <hr>
             </div>
             <div id="examBuilder"class="preview scroll">
-
             </div>
           <div style="margin:15px 15px 5px 15px">
             <button style="width:100%;" onclick="showAddQuestion()">Return To Question Assembly</button>
           </div>
         </div>
-
-
-        </div>
+				</div>
         <div id="rightpannel">
           <div class="pannel">
             <div class="title">
               <h1 class="left">Search:</h1>
               <hr>
               <div class="searchcontainer">
-
-              <!--
-            <div class="flexContainer">
-            <div class="box">
-              <div id="total" style="text-align: center;padding:auto;line-height:41px">0/100</div>
-            </div>
-            <div class="box"><button>Submit Test</button></div>
-          </div>
-          <br>
-          <div style="margin:0 50px 0 50px">
-
-            <button>Release Scores</button>
-          </div>
-
-              -->
-
-                <div class="optionsrowitem" style="width: 33%">
+								<div class="optionsrowitem" style="width: 33%">
                   <div class="rowitem">Topic: </div>
                   <select onchange="createJSONQuestionQuery()" id="qtopic" class="select" style="width:150px;height:22px; float:left">
                     <option selected value="null" selceted>---</option>
@@ -213,50 +153,11 @@
                     <option value="hard">Hard</option>
                   </select>
                 </div>
-
-
               </div>
             </div>
             <hr>
             <div id = "heap" class="scroll" style="margin-bottom:30px;">
-
-<!-- BETA
- <div class="questionPreview" id = ${ith}>
-	<div class="questionPreviewTitle">Function Name: ${name} </div>
- 	<hr>
- 	<div class="questionPreviewText">
- 		<span class="smallHeading">Question:</span>
- 		<br>
- 		<div style="width: 95%; margin-top:4px; margin-left:2px">Create a function called \"${name}\" that takes argument ${argsList} that can do the following:  ${desc}
- 		</div>
- 		<span class="smallerHeading"><br>Topics: ${topicList}<br></span>
- 		<hr>
- 		<div class="questionPreviewHandler">
- 			<div style="margin-top:8px;" class="questionPreviewContainer">
-				<div class="ButtonContainer">
- 					<button style="width:50%; float:right; margin-right:15px"class="questionPreviewButton ${check(name)} ">${aprem(check(name))}</button>
- 					<div style="width:40%">
-						<div style="" >Points Value:</div>
- 						<input class="select pts" style="width:100%"value="${findVal(name)}"></input>
-					</div>
-				</div>
-				<div style="width:30%;float:left" class="ButtonContainer">
-					<div style="float:left; margin-left:5px" class="questionPreviewDifficulty">Difficulty: ${difficulty}</div>
-				</div>
-				</div>
- 			</div>
-		</div>
-	</div>
-	-->
-              <!-- <div style="margin-top:50px" class="center">
-                <img class="sad"  src="./sad.png">
-              </div>
-              <div class="center">
-                <div style="color:#444;margin-top:5px;text-align:center; width:100%">Sorry, we couldn't find any questions to match your query!</div>
-              </div>
-            </div> -->
           </div>
-
           <div class="flexContainer">
             <div class="box">
               <div id="" style="text-align: center;padding:auto;line-height:41px">Exam Point Value:</div>
@@ -266,16 +167,22 @@
             </div>
 	  			</div>
           <div class="flexContainer">
-            <div class="box" ><button id="lock" class="btn" style="width:94%;float:left"onclick="Lock()">Toggle Exam Scoring</button></div>
-            <div class="box" ><button class="btn" style="width:94%;float:right"onclick="submitBuiltExam()">Submit New Exam</button></div>
+            <div class="box"><button id="lock" class="btn" style="width:96%;float:left"onclick="Lock()">Toggle Exam Scoring</button></div>
+            <div class="box"><button class="btn" style="width:96%;float:right"onclick="submitBuiltExam()">Submit New Exam</button></div>
+						</div>
+						<div class="flexContainer" style="padding-top:5px">
+							<div class="box"><button class="btn" style="width:96%;float:left" onclick="goToReview()">Review Student
+						Exams</button></div>
+	   					<div class="box"><button class="btn" style="width:96%;float:right" onclick="releaseScores()">Release Exam
+						Scores</button></div>
+						</div>
+                <div style="width:100%;height:100%" class = "">	
+									<div id="feedbackB" class="feedback" style="margin-top:12px;width:100%;height:100%"></div>
+								</div>
           </div>
           <br>
           <div style="margin:0 50px 0 50px">
-            <button class="btn" style="width:47%;float:left" onclick="goToReview()">Review Student Exams</button>
-	   				<button class="btn" style="width:47%;float:right" onclick="releaseScores()">Release Exam Scores</button>
           </div>
-
-        <!-- end of right side-->
         </div>
     </div>
 	<script src="script.js"></script>
